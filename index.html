@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Sanika | Engineering Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -66,6 +66,7 @@
         <a class="toc-bubble" href="#core-competencies">Core Competencies</a>
         <a class="toc-bubble" href="#career-journey">Career Journey</a>
         <a class="toc-bubble" href="#artwork">Artwork</a>
+        <a class="toc-bubble" href="#contact">Contact Me</a>
       </nav>
       <a class="scroll-cue" href="#about" aria-label="Scroll to about me">
         <span class="scroll-cue-part part-1" aria-hidden="true"></span>
@@ -436,6 +437,32 @@
           <p class="page-eyebrow">Page 7</p>
           <h2>Paintings and Photography</h2>
           <div class="artwork-gallery" id="artwork-gallery" aria-label="Paintings gallery"></div>
+        </div>
+      </section>
+
+      <section class="section page-section" id="contact">
+        <div class="page-shell">
+          <p class="page-eyebrow">Page 8</p>
+          <h2>Contact Me</h2>
+          <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <label class="form-label" for="contact-name">Name</label>
+            <input class="form-input" id="contact-name" name="name" placeholder="Your name" required />
+
+            <label class="form-label" for="preferred-contact">Preferred Method of Contact</label>
+            <select class="form-input" id="preferred-contact" name="preferred_method_of_contact" required>
+              <option value="" selected disabled>Select one</option>
+              <option value="Email">Email</option>
+              <option value="Phone">Phone</option>
+              <option value="Text">Text</option>
+              <option value="LinkedIn">LinkedIn</option>
+            </select>
+
+            <label class="form-label" for="contact-message">Message</label>
+            <textarea class="form-input form-textarea" id="contact-message" name="message" placeholder="Write your message" required></textarea>
+
+            <button class="contact-submit" type="submit">Send</button>
+          </form>
+          <a class="back-to-top" href="#intro" aria-label="Back to top">Back to top ↑</a>
         </div>
       </section>
     </main>

@@ -722,7 +722,6 @@ bindProjectTriggers(document.querySelectorAll(".experience-card[data-project]"))
 bindProjectTriggers(document.querySelectorAll(".artwork-card[data-project]"));
 initializeExperienceHoverGradient();
 initializeTrailAnimation();
-initializeAboutTyping();
 
 closeModalBtn.addEventListener("click", closeModal);
 
