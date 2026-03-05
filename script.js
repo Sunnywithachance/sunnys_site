@@ -92,7 +92,7 @@ const projectData = {
     location: "NYC, NY",
     period: "May 2023 to April 2024",
     responsibilitiesParagraph:
-      "As a Software Engineer at UCHE, I designed and deployed an automated chatbot using Python, JavaScript, and webhooks that reached over 10,000 users in one month. I led backend development for the UCHE iOS app, implemented personalized recommendation logic, and built compatibility and recommendation models using JavaScript, Python, Google Apps Script, APIs, and Xcode.",
+      "As a Software Engineer at UCHE, I designed and deployed an automated chatbot using Python, JavaScript, and webhooks that reached over 10,000 users in one month. I piloted backend development for the UCHE iOS app, implemented personalized recommendation logic, and built compatibility and recommendation models using JavaScript, Python, Google Apps Script, APIs, and Xcode.",
     bullets: [
       "Designed and deployed an automated chatbot using Python, JavaScript, and webhooks, reaching over 10,000 users in one month.",
       "Led backend development for the UCHE iOS app and implemented personalized recommendation logic.",
@@ -108,7 +108,7 @@ const projectData = {
       { src: "images/Athletics images/field hockey solo.png", alt: "Sanika playing field hockey" }
     ],
     paragraphs: [
-      "I represented Ontario at four national tournaments, trained with Ontario through the COVID years, and practiced with Canada NextGen U18 for around two years.",
+      "I represented Ontario at four national tournaments and trained with Ontario through the COVID yeara.",
       "I ended my provincial field hockey career on a high note when Team Ontario won Nationals, dethroning BC for the first time in years.",
       "Today, I play midfield for the University of Waterloo Women's varsity field hockey team."
     ]
@@ -137,6 +137,191 @@ const projectData = {
     paragraphs: [
       "I played house ice hockey for 12 years and graduated from the Nepean Girls Hockey Association (NGHA) in grade 12 when I left for university.",
       "I'm looking forward to playing again when I am older!"
+    ]
+  },
+  "career-randox": {
+    type: "Career Journey",
+    custom: "career",
+    companyLogo: "images/Career Journey/Randox.jpg",
+    companyName: "Randox",
+    title: "Agile Developer Intern",
+    meta: "Randox · Internship",
+    periodLocation: "Jan 2026 - Present · Antrim, Northern Ireland, United Kingdom",
+    bullets: [
+      "Developing automation and digital process integration for manufacturing workflows.",
+      "Building an automated manufacturing process using a UR3 robotic arm to improve repeatability and operational efficiency."
+    ]
+  },
+  "career-siemens": {
+    type: "Career Journey",
+    custom: "career",
+    companyLogo: "images/Career Journey/Siemens Healthineers.png",
+    companyName: "Siemens Healthineers",
+    title: "Engineering / Scientist Assistant",
+    meta: "Siemens Healthineers · Internship",
+    periodLocation: "Sep 2024 - Apr 2025 · Ottawa, Ontario, Canada",
+    bullets: [
+      "Automated outlier detection and data visualisation workflows in JMP, reducing data-cleaning time from hours to minutes.",
+      "Prepared analyte target ranges for BUN, Na+, lactate, glucose, and pCO2.",
+      "Created onboarding resources to help incoming co-op students transition into the team."
+    ]
+  },
+  "career-electrium": {
+    type: "Career Journey",
+    custom: "career",
+    companyLogo: "images/Career Journey/electrium mobility.png",
+    companyName: "Electrium Mobility",
+    title: "Engineering Contributor",
+    meta: "Electrium Mobility",
+    periodLocation: "Waterloo, Ontario, Canada",
+    bullets: [
+      "Contributed to a carbon-fibre skateboard project by designing components in CAD, including a compact remote-control case and skateboard wheels.",
+      "Assisted in fabrication by applying resin and performing vacuum sealing to produce the carbon-fibre base."
+    ]
+  },
+  "career-cra": {
+    type: "Career Journey",
+    custom: "career",
+    companyLogo: "images/Career Journey/CRA.png",
+    companyName: "Canada Revenue Agency",
+    title: "Junior IT Analyst",
+    meta: "Canada Revenue Agency · Co-op",
+    periodLocation: "Jan 2024 - Apr 2024 · Ottawa, Ontario, Canada",
+    bullets: [
+      "Developed and maintained test cases in Jira for the InfoDec platform.",
+      "Contributed to testing infrastructure supporting a national tax platform used by millions of Canadians."
+    ]
+  },
+  "career-uche-software": {
+    type: "Career Journey",
+    custom: "career",
+    companyLogo: "images/Career Journey/uche.jpeg",
+    companyName: "UCHE Beauty",
+    title: "Software Engineer (Part-time Contract)",
+    meta: "UCHE Beauty",
+    periodLocation: "Aug 2023 - Apr 2024 · Brooklyn, New York, United States",
+    bullets: [
+      "Contributed to backend development for the UCHE iOS app, implementing personalised product recommendation logic.",
+      "Built compatibility and recommendation models using JavaScript, Python, Google Apps Script, APIs, and Xcode."
+    ]
+  },
+  "career-uche-engineering": {
+    type: "Career Journey",
+    custom: "career",
+    companyLogo: "images/Career Journey/uche.jpeg",
+    companyName: "UCHE Beauty",
+    title: "Engineering Intern",
+    meta: "UCHE Beauty · Internship",
+    periodLocation: "May 2023 - Aug 2023 · Brooklyn, New York, United States",
+    bullets: [
+      "Designed and deployed an automated chatbot using Python, JavaScript, and webhooks to support user interaction and inquiries."
+    ]
+  },
+  "career-uche-pa": {
+    type: "Career Journey",
+    custom: "career",
+    companyLogo: "images/Career Journey/uche.jpeg",
+    companyName: "UCHE Beauty",
+    title: "Personal Assistant to Director (Part-time Contract)",
+    meta: "UCHE Beauty",
+    periodLocation: "May 2022 - May 2023 · Brooklyn, New York, United States",
+    bullets: [
+      "Conducted targeted Instagram outreach to increase brand visibility and engage potential customers.",
+      "Initiated conversations with users to gather feedback on hair-care needs and interests within the target market."
+    ]
+  },
+  "career-rocketry": {
+    type: "Career Journey",
+    custom: "career",
+    companyLogo: "images/Career Journey/Rocketry.avif",
+    companyName: "Waterloo Rocketry",
+    title: "General Engineer",
+    meta: "Waterloo Rocketry",
+    periodLocation: "Sep 2022 - May 2023 · Waterloo, Ontario, Canada",
+    bullets: [
+      "Designed safety components using SOLIDWORKS and prepared them for additive manufacturing using Ultimaker Cura.",
+      "Used SOLIDWORKS Flow Simulation to model airflow and evaluate parachute performance for rocket recovery systems."
+    ]
+  },
+  "career-nanorobotics": {
+    type: "Career Journey",
+    custom: "career",
+    companyLogo: "images/Universityofwaterloo.svg",
+    companyName: "University of Waterloo Nanorobotics Group",
+    title: "Researcher",
+    meta: "University of Waterloo Nanorobotics Group",
+    periodLocation: "Sep 2022 - May 2023 · Waterloo, Ontario, Canada",
+    bullets: [
+      "Researched gold nanoparticle behaviour for potential use in bacteria detection within hydroponic systems.",
+      "Reviewed scientific literature on gold nanoparticle synthesis and experimental methods.",
+      "Collaborated with a multidisciplinary team to explore improvements in hydroponic monitoring systems."
+    ]
+  },
+  "career-wize": {
+    type: "Career Journey",
+    custom: "career",
+    companyLogo: "images/Career Journey/Wize Computing academy.png",
+    companyName: "Wize Computing Academy",
+    title: "Summer Intern",
+    meta: "Wize Computing Academy · Internship",
+    periodLocation: "Jul 2022 - Aug 2022 · Ottawa, Ontario, Canada",
+    bullets: [
+      "Designed hands-on projects using drones to teach students introductory Python and HTML for building basic websites.",
+      "Transferred data between software systems to support operational workflows.",
+      "Assisted with bookkeeping and file organization for a growing business."
+    ]
+  },
+  "career-carleton": {
+    type: "Career Journey",
+    custom: "career",
+    companyLogo: "images/Career Journey/Carleton University.jpeg",
+    companyName: "Carleton University",
+    title: "Neuroscience Research Assistant (Part-time Contract)",
+    meta: "Carleton University",
+    periodLocation: "Jul 2022 - Aug 2022 · Ottawa, Ontario, Canada",
+    bullets: [
+      "Assisted with laboratory procedures including ghrelin receptor double staining.",
+      "Prepared stock solutions such as phosphate-buffered saline (PBS) to maintain sample stability.",
+      "Counted stained cells in brain tissue samples using microscopy."
+    ]
+  },
+  "career-field-hockey": {
+    type: "Career Journey",
+    custom: "career",
+    companyLogo: "images/Career Journey/Outaouais FHC.png",
+    companyName: "Outaouais Field Hockey Club",
+    title: "Field Hockey Coach",
+    meta: "Outaouais Field Hockey Club",
+    periodLocation: "May 2021 - Jul 2022 · Ottawa, Ontario, Canada",
+    bullets: [
+      "Coached U15 beginner players and prepared them for participation in the high-school league."
+    ]
+  },
+  "career-netx": {
+    type: "Career Journey",
+    custom: "career",
+    companyLogo: "images/Career Journey/NetX.png",
+    companyName: "NetX",
+    title: "Designer",
+    meta: "NetX · Internship",
+    periodLocation: "May 2021 - Jul 2022 · Montreal, Quebec, Canada",
+    bullets: [
+      "Designed marketing and presentation materials for a student networking and case-competition event connecting students with Canadian startups.",
+      "Selected to design the final presentation delivered to representatives from 10+ technology companies."
+    ]
+  },
+  "career-robotics": {
+    type: "Career Journey",
+    custom: "career",
+    companyLogo: "images/Career Journey/Longfields Davidson Heights Secondary School.jpg",
+    companyName: "Longfields Davidson Heights Secondary School",
+    title: "Robotics Engineer",
+    meta: "Longfields Davidson Heights Secondary School",
+    periodLocation: "Sep 2017 - Jul 2022 · Ottawa, Ontario, Canada",
+    bullets: [
+      "Designed mechanical components using Autodesk Fusion 360 for robotics projects, including mechanisms such as a catapult.",
+      "Applied wiring, pneumatics, and fabrication skills to build competition robots.",
+      "Developed a pneumatic lifting system using workshop tools and mechanical components."
     ]
   }
 };
@@ -332,7 +517,6 @@ function renderSiemensProject(project) {
             <p>Each test produces tens of thousands of data points over long runs. Filtering outliers and spotting trends manually was slow and delayed insight delivery.</p>
           </article>
           <article class="siemens-block">
-            <span class="siemens-chip">My Solution</span>
             <h4>Write a JMP Script</h4>
             <p>Automate data cleanup, outlier checks, and analyte-specific bias chart generation to compare epoc output against reference machines within minutes.</p>
             <div class="siemens-steps">
@@ -570,6 +754,11 @@ function renderCapstoneProject(project) {
 }
 
 function renderAthleticsProject(project) {
+  const titleParts = (project.title || "").trim().split(" ");
+  const hasTitleEmoji = titleParts.length > 1;
+  const titleEmoji = hasTitleEmoji ? titleParts[0] : "";
+  const titleText = hasTitleEmoji ? titleParts.slice(1).join(" ") : project.title;
+
   const images = (project.images || [])
     .map(
       (image) => `
@@ -584,9 +773,36 @@ function renderAthleticsProject(project) {
   return `
     <section class="athletics-modal">
       <p class="modal-type">${project.type}</p>
-      <h3>${project.title}</h3>
+      <div class="athletics-title-row">
+        ${titleEmoji ? `<span class="athletics-title-emoji" aria-hidden="true">${titleEmoji}</span>` : ""}
+        <h3>${titleText}</h3>
+      </div>
       <div class="athletics-modal-grid">${images}</div>
       <div class="athletics-modal-copy">${paragraphs}</div>
+    </section>
+  `;
+}
+
+function renderCareerProject(project) {
+  const bullets = (project.bullets || [])
+    .map((bullet) => `<li>${bullet}</li>`)
+    .join("");
+
+  return `
+    <section class="career-modal">
+      <p class="modal-type">${project.type}</p>
+      <div class="career-modal-header">
+        <img class="career-modal-logo" src="${project.companyLogo}" alt="${project.companyName} logo" />
+        <div class="career-modal-copy">
+          <h3>${project.title}</h3>
+          <p class="career-modal-meta">${project.meta}</p>
+          <p class="career-modal-period">${project.periodLocation}</p>
+        </div>
+      </div>
+      <article class="job-bubble">
+        <h4>Highlights</h4>
+        <ul>${bullets}</ul>
+      </article>
     </section>
   `;
 }
@@ -630,6 +846,8 @@ function openModal(projectKey) {
         ? renderCapstoneProject(project)
       : project.custom === "athletics"
         ? renderAthleticsProject(project)
+      : project.custom === "career"
+        ? renderCareerProject(project)
       : renderDefaultProject(project);
   if (modalPanel) {
     modalPanel.style.background = "";
@@ -908,6 +1126,7 @@ renderArtworkGallery();
 bindProjectTriggers(document.querySelectorAll(".experience-card[data-project]"));
 bindProjectTriggers(document.querySelectorAll(".artwork-card[data-project]"));
 bindProjectTriggers(document.querySelectorAll(".athletics-bubble[data-project]"));
+bindProjectTriggers(document.querySelectorAll(".career-item[data-project]"));
 initializeExperienceHoverGradient();
 initializeTrailAnimation();
 initializeContactForm();
