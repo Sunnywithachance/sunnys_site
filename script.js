@@ -61,13 +61,20 @@ const projectData = {
   },
   capstone: {
     type: "Capstone",
+    custom: "capstone",
     title: "TyroSense - Microneedle Melanoma Screening Patch",
+    companyName: "TyroSense",
+    companyLogo: "images/tyrosense company.png",
+    companyUrl: "https://uwaterloo.ca/capstone-design/",
+    roleTitle: "Fourth Year Engineering Design Project",
+    location: "University of Waterloo",
+    period: "In Progress",
     description:
-      "Nanotechnology Engineering FYDP (University of Waterloo), currently in progress.",
+      "Fourth Year Engineering Design Project (University of Waterloo), currently in progress.",
     bullets: [
       "Designing a low-cost, semi-quantitative, rapid melanoma screening tool using a microneedle patch integrated with a lateral flow assay (LFA).",
       "Using hollow microneedles to collect interstitial fluid (ISF), then routing fluid through low/medium/high test lines for visible detection.",
-      "Targeting tyrosinase (a melanoma-associated biomarker) with aptamer-bound AuNPs that create a colorimetric response as concentration increases.",
+      "Targeting tyrosinase (a melanoma-associated biomarker) with aptamer-bound AuNPs that create a colourimetric response as concentration increases.",
       "Engineering for key specs: result in under 15 minutes, minimal discomfort, single-sample workflow, and clear visual output for screening.",
       "Validation plan includes SEM verification of microneedles, standalone LFA testing, and full prototype testing on porcine skin models."
     ]
@@ -90,6 +97,46 @@ const projectData = {
       "Designed and deployed an automated chatbot using Python, JavaScript, and webhooks, reaching over 10,000 users in one month.",
       "Led backend development for the UCHE iOS app and implemented personalized recommendation logic.",
       "Built compatibility and recommendation models using JavaScript, Python, Google Apps Script, APIs, and Xcode."
+    ]
+  },
+  "athletics-field": {
+    type: "Athletics",
+    title: "🏑 Field Hockey",
+    custom: "athletics",
+    images: [
+      { src: "images/Athletics images/field hockey team.png", alt: "Field hockey team photo" },
+      { src: "images/Athletics images/field hockey solo.png", alt: "Sanika playing field hockey" }
+    ],
+    paragraphs: [
+      "I represented Ontario at four national tournaments, trained with Ontario through the COVID years, and practiced with Canada NextGen U18 for around two years.",
+      "I ended my provincial field hockey career on a high note when Team Ontario won Nationals, dethroning BC for the first time in years.",
+      "Today, I play midfield for the University of Waterloo Women's varsity field hockey team."
+    ]
+  },
+  "athletics-dragonboat": {
+    type: "Athletics",
+    title: "🛶 Dragonboat",
+    custom: "athletics",
+    images: [
+      { src: "images/Athletics images/dragonboat team.JPG", alt: "University of Waterloo dragonboat team" },
+      { src: "images/Athletics images/dragonboat solo.JPG", alt: "Dragonboat training on the water" }
+    ],
+    paragraphs: [
+      "I am currently on the University of Waterloo's high-performance dragonboat team.",
+      "I represented Waterloo at Nationals in the Olympic Basin in Montreal in August 2025, which was an experience I will never forget."
+    ]
+  },
+  "athletics-ice": {
+    type: "Athletics",
+    title: "🏒 Ice Hockey",
+    custom: "athletics",
+    images: [
+      { src: "images/Athletics images/ice hockey team.JPG", alt: "Ice hockey team photo" },
+      { src: "images/Athletics images/ice hockey solo.JPG", alt: "Sanika playing ice hockey" }
+    ],
+    paragraphs: [
+      "I played house ice hockey for 12 years and graduated from the Nepean Girls Hockey Association (NGHA) in grade 12 when I left for university.",
+      "I'm looking forward to playing again when I am older!"
     ]
   }
 };
@@ -122,7 +169,7 @@ const artworkItems = [
   { src: "images/paintings/IMG_5327.jpg", title: "Painting 6", description: "Painting description 6" },
   { src: "images/paintings/IMG_5332.jpg", title: "Painting 7", description: "Painting description 7" },
   { src: "images/paintings/IMG_5333.JPG", title: "Painting 8", description: "Painting description 8" },
-  { src: "images/paintings/IMG_6469.jpg", title: "Painting 9", description: "Painting description 9" },
+  { src: "images/paintings/IMG_8070.jpg", title: "Painting 9", description: "Painting description 9" },
   { src: "images/paintings/IMG_6490.JPG", title: "Painting 10", description: "Painting description 10" },
   { src: "images/paintings/IMG_7479_Original 2.jpg", title: "Painting 11", description: "Painting description 11" },
   { src: "images/paintings/IMG_9363 2.jpg", title: "Painting 12", description: "Painting description 12" }
@@ -247,16 +294,25 @@ function getArtworkPopupColor(src) {
 }
 
 function renderExperienceHeader(project) {
-  return `
-    <div class="experience-header-large">
-      <img class="experience-logo-large" src="${project.companyLogo}" alt="${project.companyName} logo" />
-      <p class="experience-company">${project.companyName}</p>
-      <p class="experience-role">${project.roleTitle}</p>
-      <p class="experience-detail">${project.location}</p>
-      <p class="experience-detail">${project.period}</p>
+  const companyUrl =
+    project.companyUrl && String(project.companyUrl).trim()
+      ? `
       <a class="experience-url" href="${project.companyUrl}" target="_blank" rel="noreferrer">
         URL: ${project.companyUrl}
       </a>
+    `
+      : "";
+
+  return `
+    <div class="experience-header-large">
+      <img class="experience-logo-large" src="${project.companyLogo}" alt="${project.companyName} logo" />
+      <div class="experience-header-copy">
+        <p class="experience-company">${project.companyName}</p>
+        <p class="experience-role">${project.roleTitle}</p>
+        <p class="experience-detail">${project.location}</p>
+        <p class="experience-detail">${project.period}</p>
+        ${companyUrl}
+      </div>
     </div>
   `;
 }
@@ -334,7 +390,7 @@ function renderCraProject(project) {
         <article class="cra-step">
           <div class="cra-step-icon" aria-hidden="true">📄</div>
           <h4>Read Through Business Requirements</h4>
-          <p>Reviewed requirement documents and acceptance criteria to define expected webform behavior before testing began.</p>
+          <p>Reviewed requirement documents and acceptance criteria to define expected webform behaviour before testing began.</p>
         </article>
         <article class="cra-step">
           <div class="cra-step-icon" aria-hidden="true">🧪</div>
@@ -473,6 +529,68 @@ function renderRandoxProject(project) {
   `;
 }
 
+function renderCapstoneProject(project) {
+  const bullets = (project.bullets || []).map((bullet) => `<li>${bullet}</li>`).join("");
+
+  return `
+    <section class="cra-layout">
+      ${renderExperienceHeader(project)}
+
+      <div class="capstone-faq-wrap">
+        <details class="capstone-faq">
+          <summary class="capstone-faq-toggle">What is Capstone?</summary>
+          <p class="capstone-faq-copy">A year-long team engineering project focused on solving a real-world problem through full-cycle product development, including problem scoping, system design, prototyping, experimental validation, and technical reporting.</p>
+        </details>
+      </div>
+
+      <div class="cra-context">
+        <article class="cra-context-card">
+          <h4>Project Status</h4>
+          <p>This project is still in the works. The concept, prototyping workflow, and validation plan are actively being developed and iterated.</p>
+        </article>
+      </div>
+
+      <article class="uche-block">
+        <h4>Concept Overview</h4>
+        <p>${project.description}</p>
+        <ul>${bullets}</ul>
+      </article>
+
+      <article class="uche-block">
+        <h4>Proposed Design (Theory)</h4>
+        <div class="uche-images">
+          <figure class="uche-image-card capstone-image-card">
+            <img class="capstone-image" src="images/tyrosense.png" alt="TyroSense theoretical microneedle patch design concept" />
+            <figcaption>TyroSense concept design image (theoretical model, currently in progress)</figcaption>
+          </figure>
+        </div>
+      </article>
+    </section>
+  `;
+}
+
+function renderAthleticsProject(project) {
+  const images = (project.images || [])
+    .map(
+      (image) => `
+        <img class="athletics-modal-image" src="${image.src}" alt="${image.alt}" />
+      `
+    )
+    .join("");
+  const paragraphs = (project.paragraphs || [])
+    .map((paragraph) => `<p>${paragraph}</p>`)
+    .join("");
+
+  return `
+    <section class="athletics-modal">
+      <p class="modal-type">${project.type}</p>
+      <h3>${project.title}</h3>
+      <div class="athletics-modal-grid">${images}</div>
+      <div class="athletics-modal-copy">${paragraphs}</div>
+    </section>
+  `;
+}
+
 function openModal(projectKey) {
   if (projectKey.startsWith("artwork-")) {
     const index = Number(projectKey.replace("artwork-", ""));
@@ -497,7 +615,7 @@ function openModal(projectKey) {
   if (!project) return;
 
   modal.classList.remove("artwork");
-  const useWideModal = project.custom === "siemens" || project.custom === "uche";
+  const useWideModal = project.custom === "siemens" || project.custom === "uche" || project.custom === "capstone";
   modal.classList.toggle("wide", useWideModal);
   modalContent.innerHTML =
     project.custom === "siemens"
@@ -508,6 +626,10 @@ function openModal(projectKey) {
         ? renderUcheProject(project)
       : project.custom === "randox"
         ? renderRandoxProject(project)
+      : project.custom === "capstone"
+        ? renderCapstoneProject(project)
+      : project.custom === "athletics"
+        ? renderAthleticsProject(project)
       : renderDefaultProject(project);
   if (modalPanel) {
     modalPanel.style.background = "";
@@ -716,12 +838,80 @@ function initializeAboutTyping() {
   observer.observe(aboutSection);
 }
 
+function initializeContactForm() {
+  const form = document.querySelector(".contact-form");
+  if (!form) return;
+
+  const submitBtn = form.querySelector(".contact-submit");
+
+  function showContactToast(message, isError = false) {
+    let toast = document.querySelector(".contact-toast");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.className = "contact-toast";
+      toast.setAttribute("aria-live", "polite");
+      document.body.appendChild(toast);
+    }
+
+    toast.textContent = message;
+    toast.classList.toggle("error", isError);
+    toast.classList.add("show");
+
+    window.clearTimeout(showContactToast._timer);
+    showContactToast._timer = window.setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2200);
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending...";
+    }
+
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: {
+          Accept: "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error("Submit failed");
+      }
+
+      form.reset();
+      showContactToast("Sent");
+    } catch (_error) {
+      showContactToast("Unable to send right now", true);
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send";
+      }
+    }
+  });
+}
+
+function initializeFooterYear() {
+  const yearEl = document.getElementById("footer-year");
+  if (!yearEl) return;
+  yearEl.textContent = String(new Date().getFullYear());
+}
+
 renderGallery();
 renderArtworkGallery();
 bindProjectTriggers(document.querySelectorAll(".experience-card[data-project]"));
 bindProjectTriggers(document.querySelectorAll(".artwork-card[data-project]"));
+bindProjectTriggers(document.querySelectorAll(".athletics-bubble[data-project]"));
 initializeExperienceHoverGradient();
 initializeTrailAnimation();
+initializeContactForm();
+initializeFooterYear();
 
 closeModalBtn.addEventListener("click", closeModal);
 
