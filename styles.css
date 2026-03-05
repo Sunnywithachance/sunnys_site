@@ -80,10 +80,10 @@ body::before {
   z-index: -5;
   pointer-events: none;
   background:
-    radial-gradient(circle at 72% 82%, rgba(150, 55, 14, 0.62) 0%, rgba(150, 55, 14, 0.46) 32%, rgba(150, 55, 14, 0) 72%),
-    radial-gradient(circle at 62% 72%, rgba(178, 72, 18, 0.48) 0%, rgba(178, 72, 18, 0.34) 30%, rgba(178, 72, 18, 0) 68%),
-    radial-gradient(circle at 52% 56%, rgba(214, 124, 68, 0.3) 0%, rgba(214, 124, 68, 0.18) 26%, rgba(214, 124, 68, 0) 60%),
-    radial-gradient(circle at 18% 12%, rgba(241, 233, 221, 0.24) 0%, rgba(241, 233, 221, 0) 62%),
+    radial-gradient(circle at 72% 82%, rgba(146, 51, 0, 0.767) 0%, rgba(150, 55, 14, 0.589) 32%, rgba(150, 55, 14, 0) 72%),
+    radial-gradient(circle at 62% 72%, rgba(191, 81, 26, 0.586) 0%, rgba(178, 71, 18, 0.51) 30%, rgba(178, 72, 18, 0) 68%),
+    radial-gradient(circle at 52% 56%, rgba(214, 124, 68, 0.61) 0%, rgba(214, 124, 68, 0.508) 26%, rgba(214, 124, 68, 0) 60%),
+    radial-gradient(circle at 18% 12%, rgba(251, 228, 204, 0.485) 0%, rgba(241, 233, 221, 0.475) 62%),
     linear-gradient(
       180deg,
       #e6ddd0 0%,
@@ -94,6 +94,7 @@ body::before {
       #a95827 88%,
       #8f350f 96%,
       #7b2a0b 100%
+      
     );
   background-repeat: no-repeat;
   background-size: cover;
@@ -143,23 +144,23 @@ body.trail-hidden .s-trail-static-line {
 }
 
 .line-1 {
-  stroke: #a7dccbb0;
+  stroke: #a7dcd5b0;
 }
 
 .line-2 {
-  stroke: #7ccba9a4;
+  stroke: #7ccbb7a4;
 }
 
 .line-3 {
-  stroke: #4cb88bb2;
+  stroke: #4cb89db2;
 }
 
 .line-4 {
-  stroke: #378b5ab2;
+  stroke: #378b79b2;
 }
 
 .line-5 {
-  stroke: #265f39ac;
+  stroke: #265f4fac;
 }
 
 
