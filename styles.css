@@ -1351,12 +1351,7 @@ h1 {
 }
 
 .competency-group {
-  background: linear-gradient(
-    180deg,
-    rgba(232, 227, 216, 0.92) 0%,
-    rgba(226, 212, 193, 0.9) 58%,
-    rgba(219, 178, 146, 0.88) 100%
-  );
+  background: rgba(232, 227, 216, 0.92);
   border: transparent;
   border-radius: 14px;
   padding: 0.8rem 0.9rem;
