@@ -87,7 +87,7 @@ body::before {
     linear-gradient(
       180deg,
       #e6ddd0 0%,
-      #e4dacd 40%,
+      #ded0be 40%,
       #dccdb8 56%,
       #d0b08f 68%,
       #bf875e 78%,
@@ -889,7 +889,7 @@ h1 {
   padding: 1rem;
   border-radius: 16px;
   border: 1px solid rgba(150, 66, 22, 0.45);
-  background: rgba(241, 229, 212, 0.42);
+  background: rgba(252, 225, 209, 0.345);
   text-align: left;
 }
 
@@ -902,19 +902,19 @@ h1 {
 .form-input {
   width: 100%;
   border-radius: 12px;
-  border: 1px solid rgba(159, 72, 26, 0.48);
-  background: rgba(169, 63, 18, 0.78);
-  color: #fff4e8;
+  border: 1px solid rgba(159, 73, 26, 0);
+  background: rgba(255, 255, 255, 0.419);
+  color: #7a2f1b;
   padding: 0.62rem 0.72rem;
   font: inherit;
 }
 
 .form-input::placeholder {
-  color: rgba(255, 240, 224, 0.82);
+  color: rgba(255, 240, 224, 0.677);
 }
 
 .form-input:focus-visible {
-  outline: 2px solid rgba(235, 162, 95, 0.8);
+  outline: 2px solid rgba(123, 39, 0, 0.927);
   outline-offset: 1px;
 }
 
@@ -927,9 +927,9 @@ h1 {
   width: fit-content;
   margin-top: 0.2rem;
   border-radius: 999px;
-  border: 1px solid #8a350f;
-  background: linear-gradient(135deg, #bb531e 0%, #8f350f 100%);
-  color: #fff7ee;
+  border: 1px solid #8a360f00;
+  background: linear-gradient(135deg, #ebb9a1 0%, #f1d1c3 100%);
+  color: #762c01;
   font-weight: 700;
   padding: 0.56rem 1.15rem;
   cursor: pointer;
@@ -1391,7 +1391,7 @@ h1 {
 .career-journey-list {
   --career-bubble-size: clamp(220px, 30vw, 320px);
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, var(--career-bubble-size)));
+  grid-template-columns: 1fr;
   column-gap: clamp(0.2rem, 0.8vw, 0.55rem);
   row-gap: clamp(0.35rem, 1vw, 0.8rem);
   max-height: none;
@@ -1403,16 +1403,16 @@ h1 {
 }
 
 .career-item:nth-child(3n) {
-  grid-column: 1 / -1;
+  grid-column: auto;
   justify-self: center;
-  margin-top: clamp(-1rem, -1.9vw, -0.55rem);
+  margin-top: 0;
 }
 
 .career-item {
-  border: 1px solid rgba(221, 210, 193, 0);
+  border: 1px solid rgba(253, 253, 253, 0);
   border-radius: 50%;
-  background: linear-gradient(145deg, rgba(246, 192, 176, 0.571) 0%, rgba(232, 179, 162, 0.606) 46%, rgba(246, 192, 176, 0.571) 100%);
-  box-shadow: None;
+  background: linear-gradient(145deg, rgba(143, 50, 9, 0.78) 0%, rgba(132, 46, 8, 0.74) 100%);
+  box-shadow: 0 8px 18px rgba(67, 28, 10, 0.16);
   width: min(100%, var(--career-bubble-size));
   aspect-ratio: 1 / 1;
   padding: clamp(0.8rem, 2.1vw, 1.2rem);
@@ -1423,14 +1423,31 @@ h1 {
   text-align: center;
   gap: clamp(0.3rem, 1vw, 0.55rem);
   cursor: pointer;
-  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  transition:
+    transform 260ms ease,
+    box-shadow 320ms ease,
+    border-color 320ms ease,
+    background 380ms ease;
 }
 
 .career-item:hover,
 .career-item:focus-visible {
+  background: linear-gradient(145deg, #f8d6ad 0%, #f3be86 55%, #efaf71 100%);
   transform: translateY(-2px);
   border-color: rgba(244, 207, 167, 0.8);
   box-shadow: 0 10px 22px rgba(67, 28, 10, 0.22);
+}
+
+.career-item:hover .career-summary-text h3,
+.career-item:focus-visible .career-summary-text h3,
+.career-item:hover .career-summary-text p,
+.career-item:focus-visible .career-summary-text p,
+.career-item:hover .career-date,
+.career-item:focus-visible .career-date,
+.career-item:hover .career-meta,
+.career-item:focus-visible .career-meta {
+  color: #8f3209;
+  text-shadow: none;
 }
 
 .career-top {
@@ -1481,6 +1498,13 @@ h1 {
   white-space: normal;
   max-width: 30ch;
   text-shadow: 0 1px 6px rgba(67, 28, 10, 0.24);
+}
+
+.career-summary-text h3,
+.career-summary-text p,
+.career-date,
+.career-meta {
+  transition: color 260ms ease, text-shadow 260ms ease;
 }
 
 #career-journey .page-shell {
@@ -1583,19 +1607,22 @@ h1 {
   aspect-ratio: 1;
   border-radius: 999px;
   border: 1px solid rgba(249, 77, 4, 0.576);
-  background: rgba(255, 233, 224, 0.721);
+  background: linear-gradient(145deg, rgba(255, 239, 229, 0.84) 0%, rgba(255, 221, 198, 0.72) 100%);
   box-shadow: 0 10px 20px rgba(255, 255, 255, 0.235);
   display: grid;
   place-items: center;
   cursor: pointer;
-  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+  transition:
+    transform 260ms ease,
+    box-shadow 460ms ease,
+    background 760ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .athletics-bubble:hover,
 .athletics-bubble:focus-visible {
   transform: translateY(-2px);
   box-shadow: 0 12px 22px rgba(255, 85, 0, 0.783);
-  background: rgba(255, 212, 174, 0.886);
+  background: linear-gradient(145deg, rgba(255, 229, 197, 0.94) 0%, rgba(255, 191, 132, 0.9) 52%, rgba(247, 168, 101, 0.88) 100%);
 }
 
 .athletics-emoji {
