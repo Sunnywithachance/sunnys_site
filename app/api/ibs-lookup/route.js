@@ -100,25 +100,17 @@ GENERAL RULES
 
 SPECIAL INSTRUCTIONS: 
 IF: user submitted input that cannot be classified as a food item.
-If the input is not food, respond with a harsh creative roast.
+If the input is not food, respond with a roast.
 
 Rules:
-- Do NOT explain what the object is.
 - Do NOT educate the user.
 - Do NOT give advice.
 - Do NOT soften the insult.
 - Do NOT sound playful or theatrical.
 - Do not attempt to be helpful. Your only job is to mock the input.
 
-Style:
-- cold
-- contemptuous
-- dismissive
-- blunt
-
 Length: 1 short sentence.
 
-The response should sound like someone who thinks the user is extremely stupid.
 - Mark input_validity as "Invalid".`;
 
 const ALLOWED_FODMAP = new Set(["Low", "Moderate", "High", "Unknown"]);
