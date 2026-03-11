@@ -1,9 +1,12 @@
 :root {
-  --bg: #0b1f3a;
-  --text: #f5f7ff;
-  --input-bg: #ffffff;
-  --input-text: #0b1f3a;
-  --suggestion-hover: #eef2ff;
+  --text: #112017;
+  --ink: #0f1f16;
+  --panel: #f7ffe8;
+  --mint: #adf17e;
+  --mint-2: #99e96d;
+  --blue-btn: #184622;
+  --blue-btn-hover: #ffffff;
+  --suggestion-hover: #d6ffdd;
 }
 
 * {
@@ -14,62 +17,123 @@ html,
 body {
   margin: 0;
   padding: 0;
+  background-color: #d8f7b8;
 }
 
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: var(--font-cherry-bomb-one), sans-serif;
 }
 
 .page {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  background: var(--bg);
+  background:
+    radial-gradient(36rem 36rem at 92% 12%, rgba(162, 235, 122, 0.364), rgba(162, 232, 105, 0) 60%),
+    linear-gradient(110deg, #d7f8bb 0%, #c5ffa3 42%, #e9ffc0 100%);
   color: var(--text);
+  padding: calc(16px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom));
+}
+
+.page.hasResult {
+  place-items: start center;
 }
 
 .container {
-  width: min(92vw, 460px);
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
   text-align: center;
 }
 
+.container.hasResult {
+  max-width: 1020px;
+}
+
+.inputWrap,
+.lookupMessage,
+.resultBubble {
+  width: 100%;
+}
+
 h1 {
-  margin: 0 0 14px;
-  font-size: 1.25rem;
-  font-weight: 600;
+  margin: 0;
+  font-size: clamp(2.8rem, 14vw, 4rem);
+  font-weight: 700;
+  line-height: 0.95;
   letter-spacing: 0.02em;
-  text-transform: lowercase;
+  text-shadow: 0 4px 0 rgba(255, 255, 255, 0.25);
+  font-family: var(--font-cherry-bomb-one), sans-serif;
+}
+
+.subtitle {
+  margin: 10px 0 22px;
+  font-size: clamp(1rem, 4vw, 1.25rem);
+  color: rgba(17, 32, 23, 0.85);
+  font-family: var(--font-cherry-bomb-one), sans-serif;
+}
+
+.searchCard {
+  width: 100%;
+  padding: 0;
+  text-align: center;
+}
+
+.searchCard.compact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  max-width: 780px;
+  margin: 0 auto 14px;
 }
 
 .inputWrap {
   position: relative;
+  width: 100%;
+  margin: 0 auto;
 }
 
-input {
+
+.queryInput {
   width: 100%;
-  padding: 14px 16px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 10px;
+  min-height: 64px;
+  padding: 12px 16px;
+  font-size: 1.3rem;
+  line-height: 1;
+  border: 4px solid var(--ink);
+  border-radius: 18px;
   outline: none;
-  color: var(--input-text);
-  background: var(--input-bg);
+  text-align: center;
+  color: var(--ink);
+  background: var(--panel);
+  box-shadow: 0 8px 0 rgba(16, 44, 26, 0.18);
+  font-family: var(--font-cherry-bomb-one), sans-serif;
+}
+
+.queryInput::placeholder {
+  color: rgba(17, 32, 23, 0.55);
+  text-align: center;
+  font-family: var(--font-cherry-bomb-one), sans-serif;
 }
 
 .suggestions {
   position: absolute;
   left: 0;
   right: 0;
-  top: calc(100% + 6px);
+  top: calc(100% + 10px);
   list-style: none;
   margin: 0;
-  padding: 4px 0;
-  border-radius: 10px;
-  background: #fff;
-  color: #0d2344;
+  padding: 6px 0;
+  border-radius: 18px;
+  border: 3px solid var(--ink);
+  background: #eff9ff;
+  color: #ffffff;
   text-align: left;
   max-height: 220px;
   overflow-y: auto;
+  z-index: 8;
+  box-shadow: 0 8px 0 rgba(16, 44, 26, 0.18);
 }
 
 .suggestions li {
@@ -82,7 +146,7 @@ input {
   border: none;
   background: transparent;
   text-align: left;
-  padding: 10px 14px;
+  padding: 12px 14px;
   color: inherit;
   font: inherit;
   cursor: pointer;
@@ -90,4 +154,557 @@ input {
 
 .suggestions button:hover {
   background: var(--suggestion-hover);
+}
+
+.chipRow {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  justify-items: center;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.metaChip {
+  display: inline-flex;
+  align-items: center;
+  border: 3px solid var(--ink);
+  padding: 12px 14px;
+  min-height: 52px;
+  border-radius: 16px;
+  font-size: 1.35rem;
+  font-weight: 600;
+  font-family: var(--font-sour-gummy), sans-serif;
+  color: #ffffff;
+  background: var(--blue-btn);
+  cursor: pointer;
+  text-transform: lowercase;
+  width: 100%;
+  max-width: 100%;
+  justify-content: center;
+  box-shadow: 0 6px 0 rgba(16, 44, 26, 0.18);
+}
+
+.metaChip:hover {
+  background: var(--blue-btn-hover);
+  transform: translateY(-1px);
+}
+
+.metaChip:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.sendRow {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.searchCard.compact .inputWrap {
+  flex: 1;
+  width: auto;
+}
+
+.searchCard.compact .sendRow {
+  margin-top: 0;
+  flex-shrink: 0;
+}
+
+.searchCard.compact .lookupButton {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+}
+
+.searchCard.compact .enterIcon {
+  font-size: 1.9rem;
+}
+
+.lookupButton {
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0;
+  border: 4px solid var(--ink);
+  border-radius: 22px;
+  background: linear-gradient(180deg, var(--mint) 0%, var(--mint-2) 100%);
+  box-shadow: 0 8px 0 rgba(16, 44, 26, 0.18);
+  cursor: pointer;
+}
+
+.lookupButton:hover {
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+
+.lookupButton:active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+.lookupButton.isLoading {
+  animation: keyPulse 1s ease-in-out infinite;
+}
+
+.lookupButton:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.enterIcon {
+  display: block;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.lookupMessage {
+  margin: 12px 0 0;
+  color: #dfe8ff;
+  font-size: 0.9rem;
+}
+
+.resultBubble {
+  margin: 16px auto 0;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(245, 249, 255, 0.95);
+  color: #0d2344;
+  text-align: center;
+  font-family: var(--font-sour-gummy), sans-serif;
+}
+
+.resultHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.resultHeader h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.historyDropdown {
+  width: min(100%, 520px);
+  position: relative;
+}
+
+.historyTrigger {
+  width: 100%;
+  border: 2px solid rgba(14, 29, 47, 0.15);
+  border-radius: 12px;
+  background: #ffffff;
+  color: #0f2543;
+  font-family: var(--font-sour-gummy), sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.historyArrow {
+  transition: transform 0.2s ease;
+}
+
+.historyArrow.isOpen {
+  transform: rotate(180deg);
+}
+
+.historyMenu {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 8px;
+  border: 2px solid rgba(14, 29, 47, 0.15);
+  border-radius: 12px;
+  background: #f9fdff;
+  display: grid;
+  gap: 8px;
+}
+
+.historyMenu li {
+  margin: 0;
+  padding: 0;
+}
+
+.historyItem {
+  width: 100%;
+  border: 1px solid rgba(14, 29, 47, 0.14);
+  border-radius: 10px;
+  background: #ffffff;
+  color: #0f2543;
+  font-family: var(--font-sour-gummy), sans-serif;
+  font-size: 1rem;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.historyItem.isSelected {
+  background: #e7f1ff;
+}
+
+.historyItem:hover {
+  background: #f0f8ff;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.statusWarn {
+  background: #ffe3e3;
+  color: #7d1020;
+}
+
+.statusSafe {
+  background: #e2f8e8;
+  color: #0f5f2e;
+}
+
+.resultExplanation {
+  margin: 0;
+  line-height: 1.5;
+  font-size: 1.05rem;
+}
+
+.infoSection {
+  border-radius: 14px;
+  overflow: hidden;
+  margin-top: 12px;
+  border: 2px solid rgba(14, 29, 47, 0.12);
+}
+
+.sectionHeader {
+  width: 100%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  gap: 10px;
+  padding: 12px 14px;
+  text-align: center;
+  color: #0f2543;
+  font-family: var(--font-sour-gummy), sans-serif;
+  font-size: 1.12rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sectionBody {
+  padding: 12px 14px;
+  text-align: center;
+}
+
+.sectionArrow {
+  display: inline-block;
+  position: absolute;
+  right: 14px;
+  transition: transform 0.2s ease;
+}
+
+.sectionArrow.isOpen {
+  transform: rotate(180deg);
+}
+
+.sectionAmber .sectionHeader {
+  background: #f4c56f;
+}
+
+.sectionAmber .sectionBody {
+  background: #ffefcf;
+}
+
+.sectionBlue .sectionHeader {
+  background: #73aee6;
+}
+
+.sectionBlue .sectionBody {
+  background: #dff0ff;
+}
+
+.sectionGreen .sectionHeader {
+  background: #7bcf84;
+}
+
+.sectionGreen .sectionBody {
+  background: #e6f9e8;
+}
+
+.sectionRose .sectionHeader {
+  background: #eaa5b5;
+}
+
+.sectionRose .sectionBody {
+  background: #ffe3ea;
+}
+
+.sectionMint .sectionHeader {
+  background: #70cdb5;
+}
+
+.sectionMint .sectionBody {
+  background: #dcf7f0;
+}
+
+.sectionLilac .sectionHeader {
+  background: #b7a2e8;
+}
+
+.sectionLilac .sectionBody {
+  background: #eee7ff;
+}
+
+.sectionSky .sectionHeader {
+  background: #76c6ef;
+}
+
+.sectionSky .sectionBody {
+  background: #e1f4ff;
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.metaItem {
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.metaItem h3 {
+  margin: 0;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  opacity: 0.75;
+}
+
+.metaItem p {
+  margin: 6px 0 0;
+  font-size: 0.98rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.chip {
+  background: rgba(255, 255, 255, 0.65);
+  color: #1c3659;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+}
+
+.chipButton {
+  border: 1px solid rgba(28, 54, 89, 0.12);
+  cursor: pointer;
+  font: inherit;
+}
+
+.chipButton:hover {
+  background: #ffffff;
+}
+
+.chipButton:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.resultNote {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border-radius: 10px;
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.adviceSplit {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.adviceCard {
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.adviceCard h4 {
+  margin: 0;
+  font-size: 0.98rem;
+  opacity: 0.78;
+}
+
+.adviceCard p {
+  margin: 6px 0 0;
+  font-size: 1.05rem;
+}
+
+.nutritionCards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.nutritionCard {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 2px solid rgba(14, 29, 47, 0.15);
+  background: rgba(255, 255, 255, 0.86);
+  text-align: center;
+}
+
+.nutritionCardHeader {
+  background: #77cd7f;
+  color: #0f2543;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.2;
+  padding: 10px 8px;
+}
+
+.nutritionCardValue {
+  margin: 0;
+  padding: 16px 10px;
+  color: #0f2543;
+  font-size: clamp(1.75rem, 5vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes keyPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 860px;
+  }
+
+  h1 {
+    font-size: clamp(3.6rem, 8vw, 5rem);
+  }
+
+  .subtitle {
+    margin: 12px 0 28px;
+    font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+  }
+
+  .inputWrap {
+    width: min(92vw, 740px);
+  }
+
+  .queryInput {
+    min-height: 70px;
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    border-radius: 24px;
+    padding: 14px 20px;
+  }
+
+  .sendRow {
+    margin-top: 18px;
+  }
+
+  .lookupButton {
+    width: 82px;
+    height: 82px;
+  }
+
+  .chipRow {
+    margin-top: 20px;
+    grid-template-columns: repeat(2, minmax(180px, 1fr));
+    gap: 14px;
+    width: min(92vw, 860px);
+  }
+
+  .metaChip {
+    font-size: 1.45rem;
+    min-height: 54px;
+    border-radius: 18px;
+  }
+
+  .metaGrid {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+  }
+
+  .adviceSplit {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+  }
+
+  .nutritionCards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .searchCard.compact .inputWrap {
+    width: min(92vw, 620px);
+  }
+
+  .searchCard.compact .queryInput {
+    min-height: 60px;
+    font-size: clamp(1.15rem, 2.1vw, 1.55rem);
+    border-radius: 18px;
+    box-shadow: 0 6px 0 rgba(16, 44, 26, 0.18);
+  }
+
+  .searchCard.compact .sendRow {
+    margin-top: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .chipRow {
+    grid-template-columns: repeat(3, minmax(180px, 1fr));
+  }
 }
