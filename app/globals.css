@@ -53,6 +53,49 @@ body {
   padding: calc(16px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom));
 }
 
+.onboardingOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 950;
+  display: grid;
+  place-items: center;
+  padding: calc(16px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom));
+  background: #d7f8bb;
+}
+
+.onboardingCard {
+  width: min(100%, 520px);
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  text-align: center;
+}
+
+.onboardingTitle {
+  margin: 0;
+  font-size: clamp(3rem, 15vw, 5.2rem);
+  letter-spacing: 0.03em;
+  color: #082319;
+  text-shadow: none;
+}
+
+.startButton {
+  border: 4px solid var(--ink);
+  border-radius: 20px;
+  padding: 12px 20px;
+  min-height: 58px;
+  background: var(--panel);
+  color: #082319;
+  font-family: var(--font-sour-gummy), sans-serif;
+  font-size: clamp(1.1rem, 4vw, 1.35rem);
+  cursor: pointer;
+  box-shadow: 0 8px 0 rgba(16, 44, 26, 0.18);
+}
+
+.startButton:hover {
+  background: #c6e8ab;
+}
+
 .page.hasResult {
   place-items: start center;
 }
@@ -106,7 +149,14 @@ h1 {
   margin: 0 auto 14px;
 }
 
-.historyPeekButton {
+.searchCardControls {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.historyPeekButton,
+.healthPeekButton {
   flex-shrink: 0;
   width: 64px;
   height: 64px;
@@ -119,16 +169,35 @@ h1 {
   font-weight: 700;
   line-height: 1;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.historyPeekButton:hover {
+.historyPeekButton:hover,
+.healthPeekButton:hover {
   background: #ffffff;
   transform: translateY(-1px);
 }
 
-.historyPeekButton:active {
+.historyPeekButton:active,
+.healthPeekButton:active {
   transform: translateY(3px);
   box-shadow: none;
+}
+
+.healthIcon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  display: block;
+}
+
+.historyIcon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  display: block;
 }
 
 .inputWrap {
@@ -263,7 +332,8 @@ h1 {
   border-radius: 18px;
 }
 
-.searchCard.compact .historyPeekButton {
+.searchCard.compact .historyPeekButton,
+.searchCard.compact .healthPeekButton {
   width: 64px;
   height: 64px;
   border-radius: 18px;
@@ -366,6 +436,214 @@ h1 {
   background: #c6e8ab;
 }
 
+.sessionActionItem,
+.sessionFilterItem {
+  width: 100%;
+  border: 2px solid rgba(14, 29, 47, 0.15);
+  border-radius: 12px;
+  background: #eef5e4;
+  color: #0f2543;
+  font-family: var(--font-sour-gummy), sans-serif;
+  font-size: 1rem;
+  padding: 10px 12px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.sessionActionItem.isActive,
+.sessionFilterItem.isSelected {
+  background: #3d7527;
+  color: #ffffff;
+}
+
+.sessionActionItem:hover,
+.sessionFilterItem:hover {
+  background: #c6e8ab;
+}
+
+.sessionFilterMenu {
+  display: grid;
+  gap: 8px;
+}
+
+.filterModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: calc(16px + env(safe-area-inset-top)) 12px calc(16px + env(safe-area-inset-bottom));
+  background: rgba(11, 34, 18, 0.45);
+}
+
+.filterModalCard {
+  width: min(100%, 780px);
+  max-height: min(88vh, 900px);
+  overflow: auto;
+  border: var(--subbox-border);
+  border-radius: 22px;
+  background: var(--panel);
+  box-shadow: var(--subbox-shadow);
+  padding: 14px;
+  display: grid;
+  gap: 12px;
+}
+
+.filterModalTitle {
+  margin: 0;
+  font-family: var(--font-sour-gummy), sans-serif;
+  font-size: clamp(1.3rem, 4vw, 1.8rem);
+  color: #0f2543;
+}
+
+.filterSection {
+  display: grid;
+  gap: 8px;
+}
+
+.filterLabel {
+  margin: 0;
+  font-family: var(--font-sour-gummy), sans-serif;
+  color: #0f2543;
+  font-size: 1rem;
+}
+
+.filterSectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.addConditionButton {
+  width: 38px;
+  height: 38px;
+  border: var(--subbox-border);
+  border-radius: 12px;
+  background: linear-gradient(180deg, var(--mint) 0%, var(--mint-2) 100%);
+  color: #0f2543;
+  font-family: var(--font-sour-gummy), sans-serif;
+  font-size: 1.4rem;
+  line-height: 1;
+  box-shadow: 0 4px 0 rgba(16, 44, 26, 0.16);
+  cursor: pointer;
+}
+
+.conditionEntryList {
+  display: grid;
+  gap: 10px;
+}
+
+.conditionEntryCard {
+  border: 2px solid rgba(14, 29, 47, 0.15);
+  border-radius: 14px;
+  background: #eef5e4;
+  padding: 10px;
+  display: grid;
+  gap: 10px;
+}
+
+.conditionEntryTop {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: end;
+}
+
+.conditionEntryGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.removeConditionButton {
+  width: 38px;
+  height: 38px;
+  border: 2px solid rgba(14, 29, 47, 0.15);
+  border-radius: 10px;
+  background: #ffffff;
+  color: #0f2543;
+  font-family: var(--font-sour-gummy), sans-serif;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.filterConditionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.filterConditionChip {
+  border: 2px solid rgba(14, 29, 47, 0.15);
+  border-radius: 12px;
+  background: #eef5e4;
+  color: #0f2543;
+  font-family: var(--font-sour-gummy), sans-serif;
+  font-size: 0.96rem;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+
+.filterConditionChip.isSelected {
+  background: #3d7527;
+  color: #ffffff;
+}
+
+.filterFieldGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.filterField {
+  display: grid;
+  gap: 6px;
+  text-align: left;
+}
+
+.filterField span {
+  font-family: var(--font-sour-gummy), sans-serif;
+  color: #0f2543;
+  font-size: 0.95rem;
+}
+
+.filterField input,
+.filterField select,
+.filterField textarea {
+  border: 2px solid rgba(14, 29, 47, 0.15);
+  border-radius: 12px;
+  background: #ffffff;
+  color: #0f2543;
+  font-family: var(--font-sour-gummy), sans-serif;
+  font-size: 0.98rem;
+  padding: 10px 12px;
+  outline: none;
+}
+
+.filterFieldNotes {
+  grid-column: 1 / -1;
+}
+
+.filterActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.filterActionButton {
+  min-width: 110px;
+  border: var(--subbox-border);
+  border-radius: 14px;
+  background: linear-gradient(180deg, var(--mint) 0%, var(--mint-2) 100%);
+  color: #0f2543;
+  font-family: var(--font-sour-gummy), sans-serif;
+  font-size: 1rem;
+  padding: 10px 14px;
+  box-shadow: 0 6px 0 rgba(16, 44, 26, 0.18);
+  cursor: pointer;
+}
+
 .loadingOverlay {
   position: fixed;
   inset: 0;
@@ -426,12 +704,13 @@ h1 {
 
 .resultHeader {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  flex-wrap: wrap;
   width: 100%;
   margin-bottom: 8px;
+  overflow: visible;
 }
 
 .resultHeader h2 {
@@ -462,8 +741,6 @@ h1 {
 }
 
 .resultStatusBubble {
-  font-size: 1rem;
-  padding: 10px 18px;
   border-radius: 999px;
   border: var(--subbox-border);
   background: var(--subbox-bg);
@@ -478,6 +755,77 @@ h1 {
 .resultStatusBubble.statusWarn {
   background: #ffd8d1;
   color: #6e171c;
+}
+
+.resultMetricBubble {
+  width: auto;
+  max-width: 100%;
+  min-height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  line-height: 1.1;
+}
+
+.statusBadge.resultMetricBubble {
+  padding: 10px 24px;
+  font-size: clamp(1.05rem, 3.2vw, 1.4rem);
+  font-weight: 600;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.metricText {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  line-height: 1.1;
+  transform: translateY(-1px);
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.confidenceBubble {
+  background: linear-gradient(180deg, #b9dce8 0%, #a9cfdb 100%);
+  color: #0f2543;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  font: inherit;
+}
+
+.confidenceBubble:hover {
+  background: linear-gradient(180deg, #c7e3ec 0%, #b7d9e3 100%);
+}
+
+.confidenceStars {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.confidenceInner {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.confidenceStar {
+  width: 40px;
+  height: 40px;
+  display: block;
+  object-fit: contain;
+  opacity: 0.3;
+}
+
+.confidenceStar.isActive {
+  opacity: 1;
 }
 
 .historyDropdown {
@@ -659,6 +1007,15 @@ h1 {
 
 .contentCardsDetails .contentCard {
   max-width: none;
+  min-width: 0;
+}
+
+.contentCardsDetails .contentCardBody {
+  min-height: 128px;
+  padding: 14px 16px;
+  line-height: 1.22;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 .contentCardsAlternatives {
@@ -741,9 +1098,11 @@ h1 {
   font-size: clamp(1.35rem, 3.4vw, 2rem);
   font-weight: 700;
   border-radius: 10px;
-  width: calc(100% - 12px);
-  margin: 6px;
-  min-height: calc(var(--card-body-min) - 12px);
+  width: calc(100% - 20px);
+  max-width: none;
+  margin: 10px auto 10px;
+  min-height: 0;
+  padding: 10px 20px;
 }
 
 .fodmapValue.isLow {
@@ -764,6 +1123,49 @@ h1 {
 .fodmapValue.isUnknown {
   background: #eef2f7;
   color: #0f2543;
+}
+
+.fodmapDetailsGrid {
+  width: calc(100% - 12px);
+  margin: 0 6px 10px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.fodmapDetailItem {
+  border: 2px solid rgba(14, 29, 47, 0.12);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 10px 8px;
+  text-align: center;
+  display: grid;
+  gap: 4px;
+  min-height: 74px;
+}
+
+.fodmapDetailLabel {
+  font-size: 0.74rem;
+  line-height: 1.1;
+  color: #30425f;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.fodmapDetailValue {
+  font-size: 0.98rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #0f2543;
+}
+
+.fodmapDetailValue.isTrue {
+  color: #2a532e;
+}
+
+.fodmapDetailValue.isFalse {
+  color: #6a2d2d;
 }
 
 .sectionArrow {
@@ -1049,9 +1451,12 @@ h1 {
   }
 
   .contentCards,
-  .contentCardsDetails,
   .contentCardsAlternatives {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contentCardsDetails {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   }
 
   .contentCardsAdvice {
@@ -1089,6 +1494,24 @@ h1 {
   .loadingLabel {
     font-size: clamp(2rem, 5vw, 3rem);
   }
+
+  .fodmapDetailsGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 639px) {
+  .filterFieldGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .conditionEntryTop {
+    grid-template-columns: 1fr;
+  }
+
+  .conditionEntryGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -1097,9 +1520,12 @@ h1 {
   }
 
   .contentCards,
-  .contentCardsDetails,
   .contentCardsAlternatives {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .contentCardsDetails {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr);
   }
 
   .contentCardsAdvice {

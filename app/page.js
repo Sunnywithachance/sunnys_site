@@ -53,6 +53,18 @@ const DEMO_TEXT = "Tromboncino squash";
 const DEMO_TRIM_COUNT = 17;
 const LOADING_TEXT = "lemme see";
 const LOADING_TRIM_COUNT = 9;
+const CONDITION_OPTIONS = ["IBS", "Menopause"];
+const CONDITION_SEVERITY_OPTIONS = [
+  "Very mild (occasional symptoms)",
+  "Mild (noticeable but manageable)",
+  "Moderate (regular symptoms)",
+  "Moderately severe (frequent disruption)",
+  "Severe (major daily impact)"
+];
+const CONDITION_SUBTYPE_OPTIONS = {
+  IBS: ["IBS-C", "IBS-D", "IBS-M", "IBS-U"],
+  Menopause: ["Perimenopause", "Postmenopause", "Surgical menopause", "Unknown stage"]
+};
 const initialSectionState = (mayTriggerIbs) => ({
   summary: true,
   details: true,
@@ -85,6 +97,18 @@ export default function Page() {
   const [sessionHistory, setSessionHistory] = useState([]);
   const [selectedHistoryKey, setSelectedHistoryKey] = useState("");
   const [isSessionHistoryOpen, setIsSessionHistoryOpen] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [hasCompletedHealthDetails, setHasCompletedHealthDetails] = useState(false);
+  const [profileFilters, setProfileFilters] = useState({
+    conditions: [{ id: 1, type: "IBS", subtype: "IBS-M", severity: "Moderate (regular symptoms)", details: "" }],
+    gender: "",
+    age: "",
+    height_ft: "",
+    height_in: "",
+    weight_lb: "",
+    diet_type: "",
+    notes: ""
+  });
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [demoLength, setDemoLength] = useState(DEMO_TEXT.length);
   const [isDeletingDemo, setIsDeletingDemo] = useState(false);
@@ -94,6 +118,15 @@ export default function Page() {
   const inputRef = useRef(null);
   const portionAdviceParsed = parsePortionAdvice(lookupResult?.portion_advice);
   const isInvalidInput = lookupResult?.input_validity === "Invalid";
+  const confidenceScore = lookupResult?.evidence_confidence === "High" ? 3 : lookupResult?.evidence_confidence === "Moderate" ? 2 : 1;
+  const nutritionData = lookupResult?.nutrition_per_serving ?? lookupResult?.nutrition_per_100g ?? null;
+  const nutritionServingLabel = lookupResult?.serving_size?.trim() || "1 serving";
+  const fodmapDetails = [
+    { key: "oligosaccharides", label: "Oligo", value: Boolean(lookupResult?.fodmap_details?.oligosaccharides) },
+    { key: "fructose_excess", label: "Fruct.", value: Boolean(lookupResult?.fodmap_details?.fructose_excess) },
+    { key: "lactose", label: "Lact.", value: Boolean(lookupResult?.fodmap_details?.lactose) },
+    { key: "polyols", label: "Polyo.", value: Boolean(lookupResult?.fodmap_details?.polyols) }
+  ];
 
   const suggestions = useMemo(() => {
     if (hasSearchedOnce) return [];
@@ -181,6 +214,45 @@ export default function Page() {
     return `${kcal === "—" ? "—" : kcal}/${kj === "—" ? "—" : kj}`;
   };
 
+  const buildLookupContext = () => {
+    const toNumericOrNull = (value) => {
+      if (value === "" || value === null || value === undefined) return null;
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? parsed : null;
+    };
+
+    const feet = toNumericOrNull(profileFilters.height_ft);
+    const inches = toNumericOrNull(profileFilters.height_in);
+    const pounds = toNumericOrNull(profileFilters.weight_lb);
+
+    const totalInches =
+      (typeof feet === "number" ? feet * 12 : 0) +
+      (typeof inches === "number" ? inches : 0);
+    const heightCm = totalInches > 0 ? Number((totalInches * 2.54).toFixed(1)) : null;
+    const weightKg = typeof pounds === "number" && pounds > 0 ? Number((pounds * 0.45359237).toFixed(1)) : null;
+
+    const conditionDetails = profileFilters.conditions
+      .filter((item) => item && typeof item.type === "string" && item.type.trim())
+      .map((item) => ({
+        condition: item.type,
+        subtype: item.subtype || null,
+        severity: item.severity ? item.severity.toLowerCase() : null,
+        details: item.details?.trim() || null
+      }));
+    const conditionNames = [...new Set(conditionDetails.map((item) => item.condition))];
+
+    return {
+      conditions: conditionNames,
+      condition_details: conditionDetails,
+      gender: profileFilters.gender.trim() ? profileFilters.gender.trim().toLowerCase() : null,
+      age: toNumericOrNull(profileFilters.age),
+      height_cm: heightCm,
+      weight_kg: weightKg,
+      diet_type: profileFilters.diet_type.trim() ? profileFilters.diet_type.trim().toLowerCase() : null,
+      notes: profileFilters.notes.trim() || null
+    };
+  };
+
   const runLookup = async (foodInput) => {
     const value = foodInput.trim();
     if (!value) {
@@ -198,7 +270,7 @@ export default function Page() {
       const response = await fetch("/api/ibs-lookup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ food: value })
+        body: JSON.stringify({ food: value, user_context: buildLookupContext() })
       });
 
       const data = await response.json();
@@ -256,8 +328,68 @@ export default function Page() {
     }));
   };
 
+  const handleConfidenceClick = () => {
+    if (typeof window !== "undefined") {
+      window.alert(`confidence level is ${confidenceScore}/3`);
+    }
+  };
+
+  const addConditionEntry = () => {
+    const nextId = Date.now() + Math.floor(Math.random() * 1000);
+    setProfileFilters((prev) => {
+      return {
+        ...prev,
+        conditions: [
+          ...prev.conditions,
+          { id: nextId, type: "IBS", subtype: "IBS-M", severity: "Moderate (regular symptoms)", details: "" }
+        ]
+      };
+    });
+  };
+
+  const updateConditionEntry = (id, updates) => {
+    setProfileFilters((prev) => ({
+      ...prev,
+      conditions: prev.conditions.map((item) => (item.id === id ? { ...item, ...updates } : item))
+    }));
+  };
+
+  const removeConditionEntry = (id) => {
+    setProfileFilters((prev) => {
+      const next = prev.conditions.filter((item) => item.id !== id);
+      return {
+        ...prev,
+        conditions: next.length
+          ? next
+          : [{ id: Date.now(), type: "IBS", subtype: "IBS-M", severity: "Moderate (regular symptoms)", details: "" }]
+      };
+    });
+  };
+
+  const openHealthDetails = () => {
+    setIsFilterModalOpen(true);
+    setIsSessionHistoryOpen(false);
+  };
+
+  const handleSaveHealthDetails = () => {
+    setIsFilterModalOpen(false);
+    if (!hasCompletedHealthDetails) {
+      setHasCompletedHealthDetails(true);
+    }
+  };
+
   return (
     <main className={`page${hasSearchedOnce ? " hasResult" : ""}`}>
+      {!hasCompletedHealthDetails ? (
+        <div className="onboardingOverlay" aria-live="polite">
+          <div className="onboardingCard">
+            <h1 className="onboardingTitle">GUTCHECK.</h1>
+            <button type="button" className="startButton" onClick={openHealthDetails}>
+              lets get started
+            </button>
+          </div>
+        </div>
+      ) : null}
       {isLoading ? (
         <div className="loadingOverlay" role="status" aria-live="polite" aria-label="Loading result">
           <div className="loadingDots" aria-hidden="true">
@@ -273,17 +405,32 @@ export default function Page() {
         <p className="subtitle">Check it before you wreck it.</p>
 
         <div className={`searchCard${hasSearchedOnce ? " compact" : ""}`}>
-          {hasSearchedOnce && sessionHistory.length > 0 ? (
-            <button
-              type="button"
-              className="historyPeekButton"
-              onClick={() => setIsSessionHistoryOpen((prev) => !prev)}
-              aria-expanded={isSessionHistoryOpen}
-              aria-label="Show session search history"
-              title="Session search history"
-            >
-              ☰
-            </button>
+          {hasSearchedOnce ? (
+            <div className="searchCardControls">
+              {sessionHistory.length > 0 ? (
+                <button
+                  type="button"
+                  className="historyPeekButton"
+                  onClick={() => setIsSessionHistoryOpen((prev) => !prev)}
+                  aria-expanded={isSessionHistoryOpen}
+                  aria-label="Show history"
+                  title="History"
+                >
+                  <img className="historyIcon" src="/icons/history-clock.svg" alt="" />
+                </button>
+              ) : null}
+              {hasCompletedHealthDetails ? (
+                <button
+                  type="button"
+                  className="healthPeekButton"
+                  onClick={openHealthDetails}
+                  aria-label="Open health details"
+                  title="Health details"
+                >
+                  <img className="healthIcon" src="/icons/health-heart.svg" alt="" />
+                </button>
+              ) : null}
+            </div>
           ) : null}
           <div className="inputWrap">
             <input
@@ -380,13 +527,218 @@ export default function Page() {
 
         {lookupMessage ? <p className="lookupMessage">{lookupMessage}</p> : null}
 
+        {isFilterModalOpen ? (
+          <div className="filterModalOverlay" role="dialog" aria-modal="true" aria-label="Health details">
+            <div className="filterModalCard">
+              <h2 className="filterModalTitle">Health details</h2>
+
+              <div className="filterSection">
+                <div className="filterSectionHeader">
+                  <p className="filterLabel">Add condition</p>
+                  <button type="button" className="addConditionButton" onClick={addConditionEntry} aria-label="Add condition">
+                    +
+                  </button>
+                </div>
+                <div className="conditionEntryList">
+                  {profileFilters.conditions.map((condition) => (
+                    <div className="conditionEntryCard" key={condition.id}>
+                      <div className="conditionEntryTop">
+                        <label className="filterField">
+                          <span>Condition</span>
+                          <select
+                            value={condition.type}
+                            onChange={(event) => {
+                              const nextType = event.target.value;
+                              const subtypeOptions = CONDITION_SUBTYPE_OPTIONS[nextType] || [];
+                              updateConditionEntry(condition.id, {
+                                type: nextType,
+                                subtype: subtypeOptions[0] || ""
+                              });
+                            }}
+                          >
+                            {CONDITION_OPTIONS.map((option) => (
+                              <option key={option} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                        <label className="filterField">
+                          <span>Severity</span>
+                          <select
+                            value={condition.severity || "Moderate (regular symptoms)"}
+                            onChange={(event) => updateConditionEntry(condition.id, { severity: event.target.value })}
+                          >
+                            {CONDITION_SEVERITY_OPTIONS.map((option) => (
+                              <option key={option} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                        <button
+                          type="button"
+                          className="removeConditionButton"
+                          onClick={() => removeConditionEntry(condition.id)}
+                          aria-label="Remove condition"
+                        >
+                          ×
+                        </button>
+                      </div>
+                      <div className="conditionEntryGrid">
+                        <label className="filterField">
+                          <span>Subtype</span>
+                          <select
+                            value={condition.subtype}
+                            onChange={(event) => updateConditionEntry(condition.id, { subtype: event.target.value })}
+                          >
+                            {(CONDITION_SUBTYPE_OPTIONS[condition.type] || ["Unknown"]).map((option) => (
+                              <option key={option} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                        <label className="filterField">
+                          <span>Details (optional)</span>
+                          <input
+                            type="text"
+                            value={condition.details}
+                            onChange={(event) => updateConditionEntry(condition.id, { details: event.target.value })}
+                            placeholder={condition.type === "IBS" ? "e.g. flare-ups after large meals" : "e.g. hot flashes, sleep changes"}
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="filterFieldGrid">
+                <label className="filterField">
+                  <span>Gender</span>
+                  <select
+                    value={profileFilters.gender}
+                    onChange={(event) => setProfileFilters((prev) => ({ ...prev, gender: event.target.value }))}
+                  >
+                    <option value="">Select</option>
+                    <option value="Female">Female</option>
+                    <option value="Male">Male</option>
+                  </select>
+                </label>
+                <label className="filterField">
+                  <span>Age</span>
+                  <input
+                    type="number"
+                    min="0"
+                    value={profileFilters.age}
+                    onChange={(event) => setProfileFilters((prev) => ({ ...prev, age: event.target.value }))}
+                    placeholder="e.g. 34"
+                  />
+                </label>
+                <label className="filterField">
+                  <span>Height (ft)</span>
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={profileFilters.height_ft}
+                    onChange={(event) => setProfileFilters((prev) => ({ ...prev, height_ft: event.target.value }))}
+                    placeholder="e.g. 5"
+                  />
+                </label>
+                <label className="filterField">
+                  <span>Height (in)</span>
+                  <input
+                    type="number"
+                    min="0"
+                    max="11"
+                    step="1"
+                    value={profileFilters.height_in}
+                    onChange={(event) => setProfileFilters((prev) => ({ ...prev, height_in: event.target.value }))}
+                    placeholder="e.g. 7"
+                  />
+                </label>
+                <label className="filterField">
+                  <span>Weight (lb)</span>
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={profileFilters.weight_lb}
+                    onChange={(event) => setProfileFilters((prev) => ({ ...prev, weight_lb: event.target.value }))}
+                    placeholder="e.g. 140"
+                  />
+                </label>
+                <label className="filterField">
+                  <span>Diet type</span>
+                  <select
+                    value={profileFilters.diet_type}
+                    onChange={(event) => setProfileFilters((prev) => ({ ...prev, diet_type: event.target.value }))}
+                  >
+                    <option value="">Select</option>
+                    <option value="Omnivore">Omnivore</option>
+                    <option value="Vegetarian">Vegetarian</option>
+                    <option value="Vegan">Vegan</option>
+                    <option value="Pescatarian">Pescatarian</option>
+                    <option value="Keto">Keto</option>
+                    <option value="Gluten-free">Gluten-free</option>
+                    <option value="Dairy-free">Dairy-free</option>
+                  </select>
+                </label>
+              </div>
+
+              <label className="filterField filterFieldNotes">
+                <span>Other notes</span>
+                <textarea
+                  rows={3}
+                  value={profileFilters.notes}
+                  onChange={(event) => setProfileFilters((prev) => ({ ...prev, notes: event.target.value }))}
+                  placeholder="Anything else relevant for food tolerance."
+                />
+              </label>
+
+              <div className="filterActions">
+                <button type="button" className="filterActionButton" onClick={handleSaveHealthDetails}>
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : null}
+
         {lookupResult ? (
           <div className="resultBubble" aria-live="polite">
             <div className="resultHeader">
               {!isInvalidInput ? (
-                <span className={lookupResult.may_trigger_ibs ? "statusBadge statusWarn resultStatusBubble" : "statusBadge statusSafe resultStatusBubble"}>
-                  {lookupResult.may_trigger_ibs ? "May trigger IBS" : "Usually better tolerated"}
-                </span>
+                <>
+                  <span className={lookupResult.may_trigger_ibs ? "statusBadge statusWarn resultStatusBubble resultMetricBubble" : "statusBadge statusSafe resultStatusBubble resultMetricBubble"}>
+                    <span className="metricText">
+                      {lookupResult.may_trigger_ibs ? "May trigger IBS" : "Usually better tolerated"}
+                    </span>
+                  </span>
+                  <button
+                    type="button"
+                    className="statusBadge resultStatusBubble resultMetricBubble confidenceBubble"
+                    onClick={handleConfidenceClick}
+                    aria-label={`Evidence confidence ${confidenceScore} out of 3`}
+                    title={`Evidence confidence ${confidenceScore} out of 3`}
+                  >
+                    <span className="confidenceInner" aria-hidden="true">
+                      <span className="confidenceStars">
+                        {[0, 1, 2].map((index) => (
+                          <img
+                            key={index}
+                            src="/icons/gold_star.png"
+                            alt=""
+                            className={`confidenceStar${index < confidenceScore ? " isActive" : ""}`}
+                          />
+                        ))}
+                      </span>
+                    </span>
+                    <span className="srOnly">{`Confidence level ${confidenceScore} out of 3`}</span>
+                  </button>
+                </>
               ) : null}
             </div>
 
@@ -440,6 +792,16 @@ export default function Page() {
                         >
                           {lookupResult.fodmap_level || "Unknown"}
                         </p>
+                        <div className="fodmapDetailsGrid" role="list" aria-label="FODMAP details">
+                          {fodmapDetails.map((detail) => (
+                            <div className="fodmapDetailItem" role="listitem" key={detail.key}>
+                              <span className="fodmapDetailLabel">{detail.label}</span>
+                              <span className={`fodmapDetailValue${detail.value ? " isTrue" : " isFalse"}`}>
+                                {detail.value ? "Yes" : "No"}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
                       </article>
                       <article className="contentCard">
                         <h3 className="contentCardHeader">Also known as</h3>
@@ -495,20 +857,20 @@ export default function Page() {
                   onClick={() => toggleSection("nutrition")}
                   aria-expanded={openSections.nutrition}
                 >
-                  <span>Nutritional contents (per 100g)</span>
+                  <span>{`Nutritional contents (per ${nutritionServingLabel})`}</span>
                   <span className={`sectionArrow${openSections.nutrition ? " isOpen" : ""}`}>▾</span>
                 </button>
                 {openSections.nutrition ? (
                   <div className="sectionBody">
-                    {lookupResult.nutrition_per_100g ? (
-                      <div className="nutritionCards" role="list" aria-label="Nutritional values per 100 grams">
+                    {nutritionData ? (
+                      <div className="nutritionCards" role="list" aria-label={`Nutritional values per ${nutritionServingLabel}`}>
                         {NUTRIENT_ROWS.map((row) => (
                           <article className="nutritionCard" role="listitem" key={row.key}>
                             <header className="nutritionCardHeader">{`${row.label} (${row.unit})`}</header>
                             <p className="nutritionCardValue">
                               {row.key === "energy"
-                                ? formatEnergyValue(lookupResult.nutrition_per_100g)
-                                : formatNutrientValue(lookupResult.nutrition_per_100g[row.key])}
+                                ? formatEnergyValue(nutritionData)
+                                : formatNutrientValue(nutritionData[row.key])}
                             </p>
                           </article>
                         ))}
