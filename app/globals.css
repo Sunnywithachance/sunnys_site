@@ -332,7 +332,7 @@ h1 {
   width: min(100%, 780px);
   border: 2px solid rgba(14, 29, 47, 0.15);
   border-radius: 12px;
-  background: #f9fdff;
+  background: var(--panel);
   display: grid;
   gap: 8px;
 }
@@ -346,7 +346,7 @@ h1 {
   width: 100%;
   border: 1px solid rgba(14, 29, 47, 0.14);
   border-radius: 10px;
-  background: #ffffff;
+  background: #eef5e4;
   color: #0f2543;
   font-family: var(--font-sour-gummy), sans-serif;
   font-size: 1rem;
@@ -356,11 +356,16 @@ h1 {
 }
 
 .sessionHistoryItem.isSelected {
-  background: #e7f1ff;
+  background: #3d7527;
+  color: #ffffff;
+}
+
+.sessionHistoryItem.isSelected:hover {
+  color: #000000;
 }
 
 .sessionHistoryItem:hover {
-  background: #f0f8ff;
+  background: #c6e8ab;
 }
 
 .loadingOverlay {
