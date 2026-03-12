@@ -14,21 +14,25 @@ const sourGummy = Sour_Gummy({
 });
 
 export const metadata = {
-  title: "Food Search",
-  description: "Centered food suggestion input",
-  themeColor: "#D8F7B8"
+  title: "GutCheck",
+  description: "Centered food suggestion input"
 };
 
 export const viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#D8F7B8"
+  themeColor: "#D7F8BB"
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png" />
+        <link rel="apple-touch-icon" sizes="150x150" href="/icons/apple-touch-icon-150.png" />
+        <meta name="apple-mobile-web-app-title" content="GutCheck" />
+      </head>
       <body className={`${cherryBombOne.className} ${cherryBombOne.variable} ${sourGummy.variable}`}>
         {children}
       </body>
