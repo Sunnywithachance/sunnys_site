@@ -36,7 +36,7 @@ body {
   padding: 0;
   width: 100%;
   min-height: 100%;
-  background-color: #d8f7b8;
+  background-color: #d7f8bb;
 }
 
 body {
@@ -48,9 +48,7 @@ body {
   min-height: 100dvh;
   display: grid;
   place-items: center;
-  background:
-    radial-gradient(36rem 36rem at 92% 12%, rgba(162, 235, 122, 0.364), rgba(162, 232, 105, 0) 60%),
-    linear-gradient(110deg, #d7f8bb 0%, #c5ffa3 42%, #e9ffc0 100%);
+  background: #d7f8bb;
   color: var(--text);
   padding: calc(16px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom));
 }
@@ -994,6 +992,12 @@ h1 {
 }
 
 @media (min-width: 640px) {
+  .page {
+    background:
+      radial-gradient(36rem 36rem at 92% 12%, rgba(162, 235, 122, 0.364), rgba(162, 232, 105, 0) 60%),
+      linear-gradient(110deg, #d7f8bb 0%, #c5ffa3 42%, #e9ffc0 100%);
+  }
+
   .container {
     max-width: 860px;
   }
