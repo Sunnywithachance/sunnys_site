@@ -97,6 +97,7 @@ The model may receive optional user context such as:
   - subtype
   - severity (very mild, mild, moderate, moderately severe, severe)
   - optional details
+- name
 - gender
 - age
 - height_cm
@@ -289,8 +290,26 @@ If the input is not a food item, return ONLY:
 
 {
 "input_validity": "Invalid",
-"summary": "The input does not appear to be a food or drink."
-}`;
+"<short AI-generated roast referencing the input, mocking the user for trying to eat it>"
+}
+
+The roast for this edge case must:
+
+Be 1 short sentence
+
+Be mean / sarcastic
+
+Directly reference the input item
+
+Mock the user for thinking it is food
+
+Be under 20 words
+
+Contain no emojis
+
+Contain no extra JSON fields
+
+Return ONLY the JSON object`;
 
 const ALLOWED_FODMAP = new Set(["Low", "Moderate", "High", "Unknown"]);
 const ALLOWED_INPUT_VALIDITY = new Set(["Valid", "Invalid"]);
@@ -494,6 +513,7 @@ function normalizeUserContext(value) {
   return {
     conditions: uniqueConditions.length ? uniqueConditions : ["IBS"],
     condition_details: conditionDetails,
+    name: typeof value.name === "string" && value.name.trim() ? value.name.trim() : null,
     gender: typeof value.gender === "string" && value.gender.trim() ? value.gender.trim() : null,
     age: toNumberOrNull(value.age),
     height_cm: toNumberOrNull(value.height_cm),

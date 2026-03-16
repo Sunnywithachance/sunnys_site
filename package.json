@@ -3,15 +3,25 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "sync:icons": "node scripts/sync-icons.mjs",
+    "predev": "npm run sync:icons",
     "dev": "next dev",
+    "prebuild": "npm run sync:icons",
     "build": "next build",
+    "prestart": "npm run sync:icons",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.78.0",
+    "@supabase/ssr": "^0.9.0",
+    "@supabase/supabase-js": "^2.78.0",
     "next": "^15.5.12",
     "react": "19.0.0",
     "react-dom": "19.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-next": "15.5.12"
   }
 }
