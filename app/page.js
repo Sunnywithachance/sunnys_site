@@ -188,6 +188,7 @@ export default function Page() {
   const [isDeletingLoadingText, setIsDeletingLoadingText] = useState(false);
   const [openSections, setOpenSections] = useState(initialSectionState(false));
   const [isConfidenceModalOpen, setIsConfidenceModalOpen] = useState(false);
+  const [isEmptyHistoryModalOpen, setIsEmptyHistoryModalOpen] = useState(false);
   const inputRef = useRef(null);
   const previousAuthUserIdRef = useRef(null);
   const portionAdviceParsed = parsePortionAdvice(lookupResult?.portion_advice);
@@ -257,6 +258,7 @@ export default function Page() {
     setProfileMessage("");
     setProfileFilters(createDefaultProfileFilters());
     setOpenSections(initialSectionState(false));
+    setIsEmptyHistoryModalOpen(false);
     setAuthError("");
   }, []);
 
@@ -667,6 +669,15 @@ export default function Page() {
     setIsConfidenceModalOpen(true);
   };
 
+  const handleHistoryPeek = () => {
+    if (!sessionHistory.length) {
+      setIsEmptyHistoryModalOpen(true);
+      return;
+    }
+
+    setIsSessionHistoryOpen((prev) => !prev);
+  };
+
   const addConditionEntry = () => {
     const nextId = Date.now() + Math.floor(Math.random() * 1000);
     setProfileFilters((prev) => {
@@ -907,6 +918,22 @@ export default function Page() {
           </div>
         </div>
       ) : null}
+      {isEmptyHistoryModalOpen ? (
+        <div
+          className="confidenceModalOverlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label="History"
+          onClick={() => setIsEmptyHistoryModalOpen(false)}
+        >
+          <div className="confidenceModalCard" onClick={(event) => event.stopPropagation()}>
+            <p className="confidenceModalText">You don&apos;t have any history</p>
+            <button type="button" className="confidenceModalClose" onClick={() => setIsEmptyHistoryModalOpen(false)}>
+              OK
+            </button>
+          </div>
+        </div>
+      ) : null}
       <div className={`container${lookupResult ? " hasResult" : ""}`}>
         <h1>GutCheck</h1>
         <p className="subtitle">Check it before you wreck it.</p>
@@ -922,7 +949,7 @@ export default function Page() {
               <button
                 type="button"
                 className="historyPeekButton"
-                onClick={() => setIsSessionHistoryOpen((prev) => !prev)}
+                onClick={handleHistoryPeek}
                 aria-expanded={isSessionHistoryOpen}
                 aria-label="Show history"
                 title="History"
