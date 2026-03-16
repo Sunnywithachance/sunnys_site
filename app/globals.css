@@ -457,6 +457,38 @@ h1 {
   font-size: 1rem;
 }
 
+.passwordFieldWrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.passwordToggle {
+  min-width: 42px;
+  min-height: 42px;
+  border: 2px solid rgba(14, 29, 47, 0.2);
+  border-radius: 12px;
+  background: #eef5e4;
+  color: #0f2543;
+  font-family: var(--font-sour-gummy), sans-serif;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.passwordToggle:hover {
+  background: #dff5cf;
+}
+
+.authHint {
+  margin: 0;
+  color: rgba(15, 37, 67, 0.78);
+  font-family: var(--font-sour-gummy), sans-serif;
+  font-size: 0.84rem;
+  line-height: 1.3;
+}
+
 .authError {
   margin: 0;
   color: #8b1010;

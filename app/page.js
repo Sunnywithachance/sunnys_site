@@ -101,6 +101,18 @@ const toHistoryState = (rows) =>
     lastUpdatedAt: row.last_updated_at
   }));
 
+const createDefaultProfileFilters = () => ({
+  name: "",
+  conditions: [{ id: Date.now(), type: "IBS", subtype: "IBS-M", severity: "Moderate (regular symptoms)", details: "" }],
+  gender: "",
+  age: "",
+  height_ft: "",
+  height_in: "",
+  weight_lb: "",
+  diet_type: "",
+  notes: ""
+});
+
 const denormalizeProfileToFilters = (profileRow) => {
   const profile = profileRow?.profile_json || {};
   const weightKg = typeof profile.weight_kg === "number" ? profile.weight_kg : null;
@@ -149,6 +161,8 @@ export default function Page() {
   const [authUsername, setAuthUsername] = useState("");
   const [authPassword, setAuthPassword] = useState("");
   const [authConfirmPassword, setAuthConfirmPassword] = useState("");
+  const [showAuthPassword, setShowAuthPassword] = useState(false);
+  const [showAuthConfirmPassword, setShowAuthConfirmPassword] = useState(false);
   const [authError, setAuthError] = useState("");
   const [authBusy, setAuthBusy] = useState(false);
   const [isAuthBootstrapping, setIsAuthBootstrapping] = useState(true);
@@ -166,17 +180,7 @@ export default function Page() {
   const [deletePassword, setDeletePassword] = useState("");
   const [profileMessage, setProfileMessage] = useState("");
   const [isSavingProfile, setIsSavingProfile] = useState(false);
-  const [profileFilters, setProfileFilters] = useState({
-    name: "",
-    conditions: [{ id: 1, type: "IBS", subtype: "IBS-M", severity: "Moderate (regular symptoms)", details: "" }],
-    gender: "",
-    age: "",
-    height_ft: "",
-    height_in: "",
-    weight_lb: "",
-    diet_type: "",
-    notes: ""
-  });
+  const [profileFilters, setProfileFilters] = useState(createDefaultProfileFilters);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [demoLength, setDemoLength] = useState(DEMO_TEXT.length);
   const [isDeletingDemo, setIsDeletingDemo] = useState(false);
@@ -185,6 +189,7 @@ export default function Page() {
   const [openSections, setOpenSections] = useState(initialSectionState(false));
   const [isConfidenceModalOpen, setIsConfidenceModalOpen] = useState(false);
   const inputRef = useRef(null);
+  const previousAuthUserIdRef = useRef(null);
   const portionAdviceParsed = parsePortionAdvice(lookupResult?.portion_advice);
   const isInvalidInput = lookupResult?.input_validity === "Invalid";
   const confidenceScore = lookupResult?.evidence_confidence === "High" ? 3 : lookupResult?.evidence_confidence === "Moderate" ? 2 : 1;
@@ -236,6 +241,24 @@ export default function Page() {
       setSessionHistory([]);
     }
   }, [authFetch]);
+
+  const resetAccountScopedState = useCallback(() => {
+    setQuery("");
+    setShowDropdown(false);
+    setLookupResult(null);
+    setLookupMessage("");
+    setHasCurrentSessionSearch(false);
+    setSessionHistory([]);
+    setSelectedHistoryKey("");
+    setIsSessionHistoryOpen(false);
+    setDeletingHistoryIds([]);
+    setIsFilterModalOpen(false);
+    setDeletePassword("");
+    setProfileMessage("");
+    setProfileFilters(createDefaultProfileFilters());
+    setOpenSections(initialSectionState(false));
+    setAuthError("");
+  }, []);
 
   useEffect(() => {
     if (query.trim() || isInputFocused) return;
@@ -306,7 +329,6 @@ export default function Page() {
         if (cancelled) return;
         if (data?.session) {
           setAuthSession(data.session);
-          await loadProfileAndHistory(data.session.access_token);
         }
       } finally {
         if (!cancelled) {
@@ -325,7 +347,21 @@ export default function Page() {
       cancelled = true;
       subscription.subscription.unsubscribe();
     };
-  }, [supabase, loadProfileAndHistory]);
+  }, [supabase]);
+
+  useEffect(() => {
+    const authUserId = authSession?.user?.id || null;
+    const previousAuthUserId = previousAuthUserIdRef.current;
+
+    if (previousAuthUserId === authUserId) return;
+
+    resetAccountScopedState();
+    previousAuthUserIdRef.current = authUserId;
+
+    if (authUserId && authSession?.access_token) {
+      loadProfileAndHistory(authSession.access_token);
+    }
+  }, [authSession?.access_token, authSession?.user?.id, loadProfileAndHistory, resetAccountScopedState]);
 
   const completeAuthSession = async (session) => {
     if (!supabase) return;
@@ -340,7 +376,6 @@ export default function Page() {
       setAuthPassword("");
       setAuthConfirmPassword("");
       setAuthUsername("");
-      await loadProfileAndHistory(session.access_token);
     } finally {
       setIsAuthBootstrapping(false);
     }
@@ -409,13 +444,7 @@ export default function Page() {
     await fetch("/api/auth/sign-out", { method: "POST" });
     await supabase.auth.signOut();
     setAuthSession(null);
-    setSessionHistory([]);
-    setLookupResult(null);
-    setLookupMessage("");
-    setSelectedHistoryKey("");
-    setHasCurrentSessionSearch(false);
-    setIsSessionHistoryOpen(false);
-    setIsFilterModalOpen(false);
+    resetAccountScopedState();
   };
 
   const handleSelect = (food) => {
@@ -790,25 +819,49 @@ export default function Page() {
           <label className="authField">
             <span>Username</span>
             <input value={authUsername} onChange={(event) => setAuthUsername(event.target.value)} autoComplete="off" />
+            <p className="authHint">5-15 letters or numbers only. No spaces or symbols. Username is not case sensitive.</p>
           </label>
           <label className="authField">
             <span>Password</span>
-            <input
-              type="password"
-              value={authPassword}
-              onChange={(event) => setAuthPassword(event.target.value)}
-              autoComplete={authMode === "login" ? "current-password" : "new-password"}
-            />
+            <div className="passwordFieldWrap">
+              <input
+                type={showAuthPassword ? "text" : "password"}
+                value={authPassword}
+                onChange={(event) => setAuthPassword(event.target.value)}
+                autoComplete={authMode === "login" ? "current-password" : "new-password"}
+              />
+              <button
+                type="button"
+                className="passwordToggle"
+                onClick={() => setShowAuthPassword((prev) => !prev)}
+                aria-label={showAuthPassword ? "Hide password" : "Show password"}
+                title={showAuthPassword ? "Hide password" : "Show password"}
+              >
+                {showAuthPassword ? "🙈" : "👁"}
+              </button>
+            </div>
+            <p className="authHint">6-15 characters with at least 1 symbol (for example: ! @ # $).</p>
           </label>
           {authMode === "signup" ? (
             <label className="authField">
               <span>Confirm Password</span>
-              <input
-                type="password"
-                value={authConfirmPassword}
-                onChange={(event) => setAuthConfirmPassword(event.target.value)}
-                autoComplete="new-password"
-              />
+              <div className="passwordFieldWrap">
+                <input
+                  type={showAuthConfirmPassword ? "text" : "password"}
+                  value={authConfirmPassword}
+                  onChange={(event) => setAuthConfirmPassword(event.target.value)}
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  className="passwordToggle"
+                  onClick={() => setShowAuthConfirmPassword((prev) => !prev)}
+                  aria-label={showAuthConfirmPassword ? "Hide confirm password" : "Show confirm password"}
+                  title={showAuthConfirmPassword ? "Hide confirm password" : "Show confirm password"}
+                >
+                  {showAuthConfirmPassword ? "🙈" : "👁"}
+                </button>
+              </div>
             </label>
           ) : null}
           <p className="privacyNotice">{PROFILE_STORAGE_NOTICE}</p>
