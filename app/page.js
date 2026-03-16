@@ -740,7 +740,10 @@ export default function Page() {
       <main className="page">
         <div className="authCard">
           <h1>GutCheck</h1>
-          <p className="authError">Missing Supabase configuration. Set *****&NEXT_PUBLIC_SUPABASE_URL and *****&NEXT_PUBLIC_SUPABASE_ANON_KEY.</p>
+          <p className="authError">
+            Missing Supabase configuration. Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+            (or `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY`) in your deployment environment, then rebuild.
+          </p>
         </div>
       </main>
     );
