@@ -390,11 +390,11 @@ body.trail-hidden .s-trail-static-line {
   z-index: 2;
   display: block;
   background-image: url("images/background_intro.png");
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   border-radius: clamp(34px, 6.6vw, 80px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: none;
   box-shadow: 0 22px 48px rgba(16, 8, 5, 0.22);
   overflow: hidden;
   aspect-ratio: 5 / 2;
@@ -1917,11 +1917,11 @@ h1 {
 .case-study-device-frame {
   width: min(100%, 320px);
   aspect-ratio: 9 / 18.5;
-  padding: 0.45rem;
   border-radius: 28px;
   border: var(--cs-border);
   background: var(--cs-surface);
   box-shadow: var(--cs-shadow);
+  overflow: hidden;
 }
 
 .case-study-video {
@@ -1929,7 +1929,7 @@ h1 {
   height: 100%;
   display: block;
   object-fit: cover;
-  border-radius: 22px;
+  border-radius: 28px;
 }
 
 .case-study-meta-row {
