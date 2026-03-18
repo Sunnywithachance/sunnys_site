@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=DynaPuff:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css?v=72cdf05" />
@@ -63,6 +63,7 @@
       <nav class="hero-toc" aria-label="Table of contents">
         <a class="toc-bubble" href="#about">About Me</a>
         <a class="toc-bubble" href="#experience">Featured Experience</a>
+        <a class="toc-bubble" href="#projects">Projects</a>
         <a class="toc-bubble" href="#core-competencies">Core Competencies</a>
         <a class="toc-bubble" href="#career-journey">Career Journey</a>
         <a class="toc-bubble" href="#athletics">Athletics</a>
@@ -121,7 +122,7 @@
             <span class="scroll-cue-part part-2" aria-hidden="true"></span>
             <span class="scroll-cue-part part-3" aria-hidden="true"></span>
           </a>
-          <a class="scroll-cue scroll-cue-down" href="#core-competencies" aria-label="Go to core competencies">
+          <a class="scroll-cue scroll-cue-down" href="#projects" aria-label="Go to projects">
             <span class="scroll-cue-part part-1" aria-hidden="true"></span>
             <span class="scroll-cue-part part-2" aria-hidden="true"></span>
             <span class="scroll-cue-part part-3" aria-hidden="true"></span>
@@ -152,9 +153,55 @@
         </div>
       </section>
 
+      <section class="section page-section" id="projects">
+        <div class="page-nav" aria-label="Section navigation">
+          <a class="scroll-cue scroll-cue-up" href="#experience" aria-label="Go to featured experience">
+            <span class="scroll-cue-part part-1" aria-hidden="true"></span>
+            <span class="scroll-cue-part part-2" aria-hidden="true"></span>
+            <span class="scroll-cue-part part-3" aria-hidden="true"></span>
+          </a>
+          <a class="scroll-cue scroll-cue-down" href="#core-competencies" aria-label="Go to core competencies">
+            <span class="scroll-cue-part part-1" aria-hidden="true"></span>
+            <span class="scroll-cue-part part-2" aria-hidden="true"></span>
+            <span class="scroll-cue-part part-3" aria-hidden="true"></span>
+          </a>
+        </div>
+        <div class="page-shell">
+          <p class="page-eyebrow">Page 4</p>
+          <h2>Projects</h2>
+          <p class="expand-note">Tap a bubble to view details</p>
+          <div class="athletics-bubble-row projects-bubble-row">
+            <article
+              class="athletics-bubble project-bubble"
+              data-project="gutcheck"
+              role="button"
+              tabindex="0"
+              aria-label="Open GutCheck project details"
+              style="
+                --project-bubble-bg: linear-gradient(145deg, rgba(243, 255, 229, 0.84) 0%, rgba(225, 255, 198, 0.72) 100%);
+                --project-bubble-bg-hover: linear-gradient(145deg, rgba(210, 255, 197, 0.94) 0%, rgba(167, 255, 132, 0.9) 52%, rgba(147, 247, 101, 0.88) 100%);
+                --project-bubble-border: rgba(1, 69, 6, 0.576);
+                --project-bubble-shadow: 0 10px 20px rgba(255, 255, 255, 0.235);
+                --project-bubble-shadow-hover: 0 12px 22px rgba(179, 255, 0, 0.783);
+                --project-image-ring: rgba(9, 143, 13, 0.22);
+                --project-image-bg: rgba(229, 255, 191, 0.7);
+                --project-image-shadow: 0 8px 18px rgba(143, 50, 9, 0.14);
+                --project-label-font: 'DynaPuff', sans-serif;
+                --project-label-color: #122713;
+              "
+            >
+              <span class="project-bubble-image-wrap" aria-hidden="true">
+                <img class="project-bubble-image" src="images/GutCheck/GutCheckLogo.png" alt="" />
+              </span>
+              <span class="project-bubble-label">GutCheck</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section class="section page-section" id="core-competencies">
         <div class="page-nav" aria-label="Section navigation">
-          <a class="scroll-cue scroll-cue-up" href="#experience" aria-label="Go to work experience">
+          <a class="scroll-cue scroll-cue-up" href="#projects" aria-label="Go to projects">
             <span class="scroll-cue-part part-1" aria-hidden="true"></span>
             <span class="scroll-cue-part part-2" aria-hidden="true"></span>
             <span class="scroll-cue-part part-3" aria-hidden="true"></span>
@@ -519,6 +566,7 @@
               <nav class="footer-links-text" aria-label="Footer table of contents">
                 <a href="#about">About Me</a>
                 <a href="#experience">Featured Experience</a>
+                <a href="#projects">Projects</a>
                 <a href="#competencies">Core Competencies</a>
                 <a href="#journey">Career Journey</a>
               </nav>
@@ -576,6 +624,6 @@
       </div>
     </div>
 
-    <script src="script.js?v=72cdf05"></script>
+    <script src="script.js?v=72cdf06"></script>
   </body>
 </html>

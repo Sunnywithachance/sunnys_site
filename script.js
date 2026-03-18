@@ -139,6 +139,140 @@ const projectData = {
       "I'm looking forward to playing again when I am older!"
     ]
   },
+  gutcheck: {
+    type: "Project",
+    title: "GutCheck",
+    custom: "project",
+    eyebrow: "Personal Project",
+    subtitle: "A personalized AI food-checking tool that turns scattered online research into one structured answer.",
+    projectUrl: "https://www.gutcheck.sanikarewankar.com",
+    actions: [
+      {
+        label: "Visit Website",
+        href: "https://www.gutcheck.sanikarewankar.com"
+      }
+    ],
+    metadata: [
+      {
+        label: "Role",
+        value: "Led end-to-end development of an AI-powered food analysis platform, including product design, frontend architecture, backend integration, and prompt engineering for reliable, context-aware AI responses, with a strong focus on usability and data-driven user experience"
+      },
+      {
+        label: "Tech Stack",
+        value: "Next.js (App Router), React (client/server components), Supabase (Auth + PostgreSQL with user-scoped data), Anthropic Claude API (LLM integration), and Northflank for containerized deployment, build pipelines, and environment configuration across development and production"
+      },
+      {
+        label: "Scope",
+        value: "Implemented secure multi-user auth and session handling, user-specific search history with database, real-time AI-driven food analysis via server-side API routes, structured prompt engineering for reliable outputs, and production deployment with environment configs and user state isolation"
+      }
+    ],
+    video: {
+      src: "images/GutCheck/iphone view/ScreenRecording_03-18-2026 10-28-16_1.MOV",
+      poster: "images/GutCheck/iphone view/searchpage.PNG",
+      alt: "Screen recording of the GutCheck mobile experience"
+    },
+    overview: [
+      {
+        title: "Problem",
+        body:
+          "I have a sensitive stomach and was tired of manually searching every food I eat to figure out whether it might cause issues, often digging through scattered, inconsistent, and sometimes unreliable information online."
+      },
+      {
+        title: "Solution",
+        body:
+          "I noticed I rely heavily on AI-generated summaries when searching, so I built a centralized platform that provides a tailored AI-driven overview of any food, consolidating relevant, structured insights into a single, easy-to-use interface."
+      },
+      {
+        title: "Outcome",
+        body:
+          "The result is a deployable full-stack application with authenticated accounts, user-specific search history, and real-time AI responses shaped by user context, delivering faster, more consistent, and centralized food analysis."
+      }
+    ],
+    walkthrough: [
+      {
+        title: "Desktop View",
+        caption: "The desktop experience walks users from sign-in to search to richer health-context output in a single responsive interface.",
+        images: [
+          {
+            src: "images/GutCheck/desktop view/loginpage.png",
+            alt: "GutCheck desktop login page"
+          },
+          {
+            src: "images/GutCheck/desktop view/searchbar.png",
+            alt: "GutCheck desktop search interface"
+          },
+          {
+            src: "images/GutCheck/desktop view/output.png",
+            alt: "GutCheck desktop output screen"
+          },
+          {
+            src: "images/GutCheck/desktop view/healthdetails.png",
+            alt: "GutCheck desktop health details view"
+          }
+        ]
+      }
+    ],
+    mobileGallery: {
+      title: "Mobile View",
+      caption: "Phone screens for account creation, search, results, history, and the app icon.",
+      gridClass: "case-study-screenshot-grid-mobile",
+      images: [
+        {
+          src: "images/GutCheck/iphone view/loginpage.PNG",
+          alt: "GutCheck mobile login page"
+        },
+        {
+          src: "images/GutCheck/iphone view/createaccountpage.PNG",
+          alt: "GutCheck mobile create account page"
+        },
+        {
+          src: "images/GutCheck/iphone view/searchpage.PNG",
+          alt: "GutCheck mobile search page"
+        },
+        {
+          src: "images/GutCheck/iphone view/outputfornonfood.PNG",
+          alt: "GutCheck mobile output example"
+        },
+        {
+          src: "images/GutCheck/iphone view/historyview.PNG",
+          alt: "GutCheck mobile history view"
+        },
+        {
+          src: "images/GutCheck/iphone view/homescreenicon.jpeg",
+          alt: "GutCheck home screen icon"
+        }
+      ]
+    },
+    technical: [
+      {
+        title: "Architecture",
+        body:
+          "GutCheck uses Next.js and React on the frontend, with server-side API routes coordinating requests between the UI, Supabase, and Claude."
+      },
+      {
+        title: "AI Integration",
+        body:
+          "Anthropic's Claude API handles natural-language food queries and returns contextual analysis in real time."
+      },
+      {
+        title: "Data",
+        body:
+          "Supabase authentication and PostgreSQL persistence support strict user-level isolation plus per-user search history."
+      },
+      {
+        title: "Deployment",
+        body:
+          "Northflank runs the containerized deployment, with build-time and runtime environment variables separated for correct client-side configuration."
+      }
+    ],
+    nextSteps: [
+      "Refine prompt engineering to reduce hallucinations and drive more scientifically grounded responses.",
+      "Expand listed health issues around ingredients, digestion impact, and common intolerances.",
+      "Validate outputs through repeated real-world usage to uncover edge cases and inconsistent behavior.",
+      "Implement clearer disclaimers so users understand the product is informational and not medical advice."
+    ],
+    note: "If you try it, please keep in mind that I'm funding the Claude API usage myself, so go easy on the queries :)"
+  },
   "career-randox": {
     type: "Career Journey",
     custom: "career",
@@ -783,6 +917,181 @@ function renderAthleticsProject(project) {
   `;
 }
 
+function renderCaseStudySectionHeader(section) {
+  const eyebrow = section.eyebrow ? `<p class="case-study-eyebrow">${section.eyebrow}</p>` : "";
+  const description = section.description ? `<p class="case-study-section-description">${section.description}</p>` : "";
+
+  return `
+    <header class="case-study-section-header">
+      ${eyebrow}
+      <h2>${section.title}</h2>
+      ${description}
+    </header>
+  `;
+}
+
+function renderCaseStudyCard(card) {
+  return `
+    <article class="case-study-card">
+      <h3>${card.title}</h3>
+      <p>${card.body}</p>
+    </article>
+  `;
+}
+
+function renderCaseStudyButton(action) {
+  const target = action.newTab === false ? "" : ` target="_blank" rel="noreferrer"`;
+  return `<a class="case-study-button" href="${action.href}"${target}>${action.label}</a>`;
+}
+
+function renderCaseStudyMedia(project) {
+  if (!project.video) return "";
+
+  return `
+    <div class="case-study-hero-visual">
+      <div class="case-study-device-frame">
+        <video
+          class="case-study-video"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          poster="${project.video.poster || ""}"
+          aria-label="${project.video.alt || `${project.title} product video`}"
+        >
+          <source src="${project.video.src}" type="video/quicktime" />
+        </video>
+      </div>
+    </div>
+  `;
+}
+
+function renderCaseStudyScreenshotFlow(flow) {
+  const images = (flow.images || [])
+    .map(
+      (image) => `
+        <figure class="case-study-screenshot-card">
+          <img class="case-study-screenshot-image" src="${image.src}" alt="${image.alt}" />
+          ${image.caption ? `<figcaption class="case-study-caption">${image.caption}</figcaption>` : ""}
+        </figure>
+      `
+    )
+    .join("");
+
+  return `
+    <section class="case-study-flow">
+      <div class="case-study-flow-copy">
+        <h3>${flow.title}</h3>
+        <p>${flow.caption}</p>
+      </div>
+      <div class="case-study-screenshot-grid ${flow.gridClass || ""}">
+        ${images}
+      </div>
+    </section>
+  `;
+}
+
+function renderCaseStudyProject(project) {
+  const actions = (project.actions || []).map(renderCaseStudyButton).join("");
+  const metadata = (project.metadata || [])
+    .map(
+      (item) => `
+        <article class="case-study-meta-item">
+          <p class="case-study-meta-label">${item.label}</p>
+          <p class="case-study-meta-value">${item.value}</p>
+        </article>
+      `
+    )
+    .join("");
+  const overviewCards = (project.overview || []).map(renderCaseStudyCard).join("");
+  const walkthrough = (project.walkthrough || []).map(renderCaseStudyScreenshotFlow).join("");
+  const technicalCards = (project.technical || []).map(renderCaseStudyCard).join("");
+  const nextSteps = (project.nextSteps || []).map((step) => `<li>${step}</li>`).join("");
+  const mobileGallery = project.mobileGallery ? renderCaseStudyScreenshotFlow(project.mobileGallery) : "";
+
+  return `
+    <article class="case-study">
+      <div class="case-study-container">
+        <section class="case-study-section case-study-hero">
+          <div class="case-study-hero-copy">
+            <p class="case-study-eyebrow">${project.eyebrow || project.type}</p>
+            <h1>${project.title}</h1>
+            <p class="case-study-lead">${project.subtitle}</p>
+            <div class="case-study-action-row">${actions}</div>
+          </div>
+          ${renderCaseStudyMedia(project)}
+        </section>
+
+        <section class="case-study-section">
+          <div class="case-study-meta-row">${metadata}</div>
+        </section>
+
+        <section class="case-study-section">
+          ${renderCaseStudySectionHeader({
+            title: "Overview",
+            description: "A quick scan of the problem, the product response, and the current result."
+          })}
+          <div class="case-study-card-grid case-study-card-grid-three">${overviewCards}</div>
+        </section>
+
+        <section class="case-study-section">
+          ${renderCaseStudySectionHeader({
+            title: "Product Walkthrough",
+            description: "Grouped screens that show the story from search to results to account-aware personalization."
+          })}
+          <div class="case-study-flow-stack">${walkthrough}</div>
+        </section>
+
+        <section class="case-study-section">
+          ${renderCaseStudySectionHeader({
+            title: "Technical Foundation",
+            description: "The system architecture behind the interface, AI orchestration, data model, and production deployment."
+          })}
+          <div class="case-study-card-grid case-study-card-grid-two">${technicalCards}</div>
+        </section>
+
+        <section class="case-study-section">
+          ${renderCaseStudySectionHeader({
+            title: "Next Steps",
+            description: "Current priorities are focused on clarity, reliability, and safer communication."
+          })}
+          <article class="case-study-card">
+            <ul class="case-study-list">${nextSteps}</ul>
+          </article>
+        </section>
+
+        ${
+          project.note
+            ? `
+              <section class="case-study-section">
+                <article class="case-study-card">
+                  <h3>Note</h3>
+                  <p>${project.note}</p>
+                </article>
+              </section>
+            `
+            : ""
+        }
+
+        ${
+          mobileGallery
+            ? `
+              <section class="case-study-section">
+                ${renderCaseStudySectionHeader({
+                  title: "Mobile View",
+                  description: "Additional phone screens showing the same product adapted for smaller, quick-check interactions."
+                })}
+                ${mobileGallery}
+              </section>
+            `
+            : ""
+        }
+      </div>
+    </article>
+  `;
+}
+
 function renderCareerProject(project) {
   const bullets = (project.bullets || [])
     .map((bullet) => `<li>${bullet}</li>`)
@@ -808,11 +1117,13 @@ function renderCareerProject(project) {
 }
 
 function openModal(projectKey) {
+  stopModalMedia();
   if (projectKey.startsWith("artwork-")) {
     const index = Number(projectKey.replace("artwork-", ""));
     const piece = artworkItems[index];
     if (!piece) return;
     modal.classList.add("artwork");
+    modal.classList.remove("case-study");
     modal.classList.remove("wide");
     modalContent.innerHTML = renderArtworkPiece(piece);
     if (modalPanel) {
@@ -831,7 +1142,12 @@ function openModal(projectKey) {
   if (!project) return;
 
   modal.classList.remove("artwork");
-  const useWideModal = project.custom === "siemens" || project.custom === "uche" || project.custom === "capstone";
+  modal.classList.toggle("case-study", project.custom === "project");
+  const useWideModal =
+    project.custom === "siemens" ||
+    project.custom === "uche" ||
+    project.custom === "capstone" ||
+    project.custom === "project";
   modal.classList.toggle("wide", useWideModal);
   modalContent.innerHTML =
     project.custom === "siemens"
@@ -846,6 +1162,8 @@ function openModal(projectKey) {
         ? renderCapstoneProject(project)
       : project.custom === "athletics"
         ? renderAthleticsProject(project)
+      : project.custom === "project"
+        ? renderCaseStudyProject(project)
       : project.custom === "career"
         ? renderCareerProject(project)
       : renderDefaultProject(project);
@@ -859,6 +1177,7 @@ function openModal(projectKey) {
     modalPanel.scrollTop = 0;
     window.requestAnimationFrame(updateModalScrollIndicator);
   }
+  window.requestAnimationFrame(playModalMedia);
 }
 
 function renderArtworkGallery() {
@@ -876,15 +1195,35 @@ function renderArtworkGallery() {
 }
 
 function closeModal() {
+  stopModalMedia();
   modal.classList.remove("open");
   modal.classList.remove("wide");
   modal.classList.remove("artwork");
+  modal.classList.remove("case-study");
   modal.setAttribute("aria-hidden", "true");
   if (modalPanel) {
     modalPanel.style.background = "";
     modalPanel.style.setProperty("--scroll-indicator-y", "0px");
     modalPanel.style.setProperty("--scroll-indicator-opacity", "0");
   }
+}
+
+function playModalMedia() {
+  const mediaNodes = modalContent.querySelectorAll("video[autoplay]");
+  mediaNodes.forEach((video) => {
+    const playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch(() => {});
+    }
+  });
+}
+
+function stopModalMedia() {
+  const mediaNodes = modalContent.querySelectorAll("video");
+  mediaNodes.forEach((video) => {
+    video.pause();
+    video.currentTime = 0;
+  });
 }
 
 function updateModalScrollIndicator() {
