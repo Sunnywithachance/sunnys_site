@@ -867,6 +867,7 @@ h1 {
 .filterModalCard {
   width: min(100%, 780px);
   max-height: min(88vh, 900px);
+  max-height: min(88dvh, 900px);
   overflow: auto;
   border: var(--subbox-border);
   border-radius: 22px;
@@ -2000,16 +2001,101 @@ h1 {
 }
 
 @media (max-width: 639px) {
+  .filterModalOverlay {
+    place-items: end center;
+    padding:
+      max(8px, env(safe-area-inset-top))
+      8px
+      max(8px, env(safe-area-inset-bottom))
+      8px;
+    overflow-y: auto;
+  }
+
+  .filterModalCard {
+    width: 100%;
+    max-height: min(100dvh - 16px, 100%);
+    border-width: 3px;
+    border-radius: 20px 20px 16px 16px;
+    padding: 14px 12px calc(18px + env(safe-area-inset-bottom));
+    gap: 14px;
+  }
+
+  .filterModalTitle {
+    font-size: 1.35rem;
+    text-align: left;
+  }
+
+  .filterSectionHeader {
+    align-items: center;
+  }
+
+  .filterLabel,
+  .privacyNotice,
+  .profileMessage,
+  .deleteAccountTitle,
+  .filterField span {
+    text-align: left;
+  }
+
+  .conditionEntryCard {
+    padding: 12px;
+    gap: 12px;
+  }
+
   .filterFieldGrid {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 
   .conditionEntryTop {
     grid-template-columns: 1fr;
+    align-items: stretch;
   }
 
   .conditionEntryGrid {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .removeConditionButton,
+  .addConditionButton {
+    width: 100%;
+    min-height: 46px;
+  }
+
+  .removeConditionButton {
+    font-size: 1.15rem;
+  }
+
+  .filterField input,
+  .filterField select,
+  .filterField textarea,
+  .filterActionButton,
+  .deleteAccountButton {
+    min-height: 48px;
+    font-size: 1rem;
+  }
+
+  .filterField textarea {
+    min-height: 112px;
+    resize: vertical;
+  }
+
+  .filterActions {
+    position: sticky;
+    bottom: calc(env(safe-area-inset-bottom) * -1);
+    margin: 2px -12px 0;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    background: linear-gradient(180deg, rgba(247, 255, 232, 0) 0%, rgba(247, 255, 232, 0.94) 24%, rgba(247, 255, 232, 1) 100%);
+  }
+
+  .filterActionButton {
+    width: 100%;
+  }
+
+  .deleteAccountPanel {
+    gap: 10px;
+    padding-bottom: 6px;
   }
 }
 
