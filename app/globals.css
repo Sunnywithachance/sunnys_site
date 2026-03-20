@@ -2121,3 +2121,81 @@ h1 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
+
+.footerWrap {
+  width: 100%;
+}
+
+.footerWordmarkBand {
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #5b9839 0%, #6eb04b 45%, #5b9839 100%);
+  border-top: 1px solid rgba(170, 246, 218, 0);
+  position: relative;
+}
+
+.footerWordmarkCrop {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.footerWordmark {
+  margin: 0;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 0.78;
+  letter-spacing: 0.01em;
+  color: #d7f8bb;
+  font-family: var(--font-cherry-bomb-one), sans-serif;
+  font-weight: 400;
+  pointer-events: none;
+  user-select: none;
+  transform: translateY(-6%);
+}
+
+.footerWordmark span {
+  display: block;
+  white-space: nowrap;
+  font-size: clamp(108px, 32vw, 220px);
+}
+
+.footerWordmark span + span {
+  margin-top: 0.01em;
+}
+
+.footerCredit {
+  margin: 8px 0 20px;
+  padding: 0 12px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  color: rgba(8, 35, 25, 0.82);
+  font-family: var(--font-sour-gummy), system-ui, sans-serif;
+}
+
+@media (min-width: 769px) {
+  .footerWordmarkBand {
+    height: 420px;
+  }
+
+  .footerWordmark {
+    line-height: 0.78;
+    transform: translateY(-4%);
+  }
+
+  .footerWordmark span {
+    font-size: clamp(120px, 24vw, 360px);
+  }
+
+  .footerCredit {
+    margin: 10px 0 24px;
+    padding: 0;
+    font-size: 14px;
+  }
+}

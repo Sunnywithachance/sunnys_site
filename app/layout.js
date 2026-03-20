@@ -37,6 +37,17 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${cherryBombOne.className} ${cherryBombOne.variable} ${sourGummy.variable}`}>
         {children}
+        <div className="footerWrap" aria-hidden="true">
+          <div className="footerWordmarkBand">
+            <div className="footerWordmarkCrop">
+              <p className="footerWordmark">
+                <span>SUNNY</span>
+                <span>STUDIO</span>
+              </p>
+            </div>
+          </div>
+          <p className="footerCredit">© Sanika Rewankar | Sunny Studio 2026</p>
+        </div>
       </body>
     </html>
   );
