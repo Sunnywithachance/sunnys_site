@@ -813,8 +813,9 @@ h1 {
   inset: 0;
   z-index: 1000;
   display: grid;
-  place-items: center;
-  padding: calc(16px + env(safe-area-inset-top)) 12px calc(16px + env(safe-area-inset-bottom));
+  place-items: end center;
+  padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom));
+  overflow-y: auto;
   background: rgba(11, 34, 18, 0.45);
 }
 
@@ -865,24 +866,24 @@ h1 {
 }
 
 .filterModalCard {
-  width: min(100%, 780px);
-  max-height: min(88vh, 900px);
-  max-height: min(88dvh, 900px);
+  width: 100%;
+  max-height: min(100dvh - 16px, 100%);
   overflow: auto;
-  border: var(--subbox-border);
-  border-radius: 22px;
+  border: 3px solid var(--ink);
+  border-radius: 20px 20px 16px 16px;
   background: var(--panel);
   box-shadow: var(--subbox-shadow);
-  padding: 14px;
+  padding: 14px 12px calc(18px + env(safe-area-inset-bottom));
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .filterModalTitle {
   margin: 0;
   font-family: var(--font-sour-gummy), sans-serif;
-  font-size: clamp(1.3rem, 4vw, 1.8rem);
+  font-size: 1.35rem;
   color: #0f2543;
+  text-align: left;
 }
 
 .filterSection {
@@ -905,8 +906,8 @@ h1 {
 }
 
 .addConditionButton {
-  width: 38px;
-  height: 38px;
+  width: 100%;
+  min-height: 46px;
   border: var(--subbox-border);
   border-radius: 12px;
   background: linear-gradient(180deg, var(--mint) 0%, var(--mint-2) 100%);
@@ -927,33 +928,33 @@ h1 {
   border: 2px solid rgba(14, 29, 47, 0.15);
   border-radius: 14px;
   background: #eef5e4;
-  padding: 10px;
+  padding: 12px;
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .conditionEntryTop {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
-  gap: 10px;
-  align-items: end;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  align-items: stretch;
 }
 
 .conditionEntryGrid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 10px;
+  gap: 12px;
 }
 
 .removeConditionButton {
-  width: 38px;
-  height: 38px;
+  width: 100%;
+  min-height: 46px;
   border: 2px solid rgba(14, 29, 47, 0.15);
   border-radius: 10px;
   background: #ffffff;
   color: #0f2543;
   font-family: var(--font-sour-gummy), sans-serif;
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   line-height: 1;
   cursor: pointer;
 }
@@ -982,33 +983,43 @@ h1 {
 
 .filterFieldGrid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: 1fr;
+  gap: 12px;
 }
 
 .filterField {
   display: grid;
-  gap: 6px;
+  gap: 8px;
   text-align: left;
+  min-width: 0;
 }
 
 .filterField span {
   font-family: var(--font-sour-gummy), sans-serif;
   color: #0f2543;
   font-size: 0.95rem;
+  text-align: left;
 }
 
 .filterField input,
 .filterField select,
 .filterField textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
   border: 2px solid rgba(14, 29, 47, 0.15);
   border-radius: 12px;
   background: #ffffff;
   color: #0f2543;
   font-family: var(--font-sour-gummy), sans-serif;
-  font-size: 0.98rem;
-  padding: 10px 12px;
+  font-size: 1rem;
+  padding: 12px 14px;
   outline: none;
+}
+
+.filterField textarea {
+  min-height: 112px;
+  resize: vertical;
 }
 
 .filterFieldNotes {
@@ -1017,7 +1028,12 @@ h1 {
 
 .filterActions {
   display: flex;
+  position: sticky;
+  bottom: calc(env(safe-area-inset-bottom) * -1);
   justify-content: center;
+  margin: 2px -12px 0;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(247, 255, 232, 0) 0%, rgba(247, 255, 232, 0.94) 24%, rgba(247, 255, 232, 1) 100%);
 }
 
 .filterActionButton {
@@ -1042,6 +1058,13 @@ h1 {
 .filterActionButton:active {
   transform: translateY(3px);
   box-shadow: none;
+}
+
+.filterLabel,
+.privacyNotice,
+.profileMessage,
+.deleteAccountTitle {
+  text-align: left;
 }
 
 .filterActionButton:disabled {
@@ -2000,71 +2023,60 @@ h1 {
   }
 }
 
-@media (max-width: 639px) {
+@media (min-width: 640px) {
   .filterModalOverlay {
-    place-items: end center;
-    padding:
-      max(8px, env(safe-area-inset-top))
-      8px
-      max(8px, env(safe-area-inset-bottom))
-      8px;
-    overflow-y: auto;
+    place-items: center;
+    padding: calc(16px + env(safe-area-inset-top)) 12px calc(16px + env(safe-area-inset-bottom));
+    overflow-y: visible;
   }
 
   .filterModalCard {
-    width: 100%;
-    max-height: min(100dvh - 16px, 100%);
-    border-width: 3px;
-    border-radius: 20px 20px 16px 16px;
-    padding: 14px 12px calc(18px + env(safe-area-inset-bottom));
-    gap: 14px;
+    width: min(100%, 780px);
+    max-height: min(88vh, 900px);
+    max-height: min(88dvh, 900px);
+    border-width: 4px;
+    border-radius: 22px;
+    padding: 14px;
+    gap: 12px;
   }
 
   .filterModalTitle {
-    font-size: 1.35rem;
-    text-align: left;
+    font-size: clamp(1.3rem, 4vw, 1.8rem);
   }
 
   .filterSectionHeader {
     align-items: center;
   }
 
-  .filterLabel,
-  .privacyNotice,
-  .profileMessage,
-  .deleteAccountTitle,
-  .filterField span {
-    text-align: left;
-  }
-
   .conditionEntryCard {
-    padding: 12px;
-    gap: 12px;
+    padding: 10px;
+    gap: 10px;
   }
 
   .filterFieldGrid {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
   }
 
   .conditionEntryTop {
-    grid-template-columns: 1fr;
-    align-items: stretch;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: end;
   }
 
   .conditionEntryGrid {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 10px;
   }
 
   .removeConditionButton,
   .addConditionButton {
-    width: 100%;
-    min-height: 46px;
+    width: 38px;
+    min-height: 38px;
   }
 
   .removeConditionButton {
-    font-size: 1.15rem;
+    font-size: 1.3rem;
   }
 
   .filterField input,
@@ -2072,30 +2084,27 @@ h1 {
   .filterField textarea,
   .filterActionButton,
   .deleteAccountButton {
-    min-height: 48px;
-    font-size: 1rem;
+    font-size: 0.98rem;
   }
 
   .filterField textarea {
     min-height: 112px;
-    resize: vertical;
   }
 
   .filterActions {
-    position: sticky;
-    bottom: calc(env(safe-area-inset-bottom) * -1);
-    margin: 2px -12px 0;
-    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
-    background: linear-gradient(180deg, rgba(247, 255, 232, 0) 0%, rgba(247, 255, 232, 0.94) 24%, rgba(247, 255, 232, 1) 100%);
+    position: static;
+    margin: 0;
+    padding: 0;
+    background: transparent;
   }
 
   .filterActionButton {
-    width: 100%;
+    width: auto;
   }
 
   .deleteAccountPanel {
-    gap: 10px;
-    padding-bottom: 6px;
+    gap: 8px;
+    padding-bottom: 0;
   }
 }
 
