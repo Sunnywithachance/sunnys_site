@@ -66,6 +66,24 @@ const CONDITION_SUBTYPE_OPTIONS = {
   IBS: ["IBS-C", "IBS-D", "IBS-M", "IBS-U"],
   Menopause: ["Perimenopause", "Postmenopause", "Surgical menopause", "Unknown stage"]
 };
+const VITAMIN_OTHER_OPTION = "Other";
+const VITAMIN_OPTIONS = [
+  "Vitamin A",
+  "Vitamin B1 (Thiamine)",
+  "Vitamin B2 (Riboflavin)",
+  "Vitamin B3 (Niacin)",
+  "Vitamin B5 (Pantothenic acid)",
+  "Vitamin B6",
+  "Vitamin B7 (Biotin)",
+  "Vitamin B9 (Folate)",
+  "Vitamin B12",
+  "Vitamin C",
+  "Vitamin D",
+  "Vitamin E",
+  "Vitamin K",
+  "Choline",
+  VITAMIN_OTHER_OPTION
+];
 const initialSectionState = (mayTriggerIbs) => ({
   summary: true,
   details: true,
@@ -76,6 +94,9 @@ const initialSectionState = (mayTriggerIbs) => ({
 const USERNAME_FORMAT_ERROR =
   "the format is invalid, and it must be 5-15 characters long, contain no special characters, and will not be case sensitive.";
 const PROFILE_STORAGE_NOTICE = "Your profile and search history will be stored so your experience can be personalized.";
+const createEntryId = () => Date.now() + Math.floor(Math.random() * 1000);
+const createEmptyAllergyEntry = () => ({ id: createEntryId(), value: "" });
+const createEmptyVitaminLevelEntry = () => ({ id: createEntryId(), vitamin: VITAMIN_OPTIONS[0], customVitamin: "", level: "" });
 
 const parsePortionAdvice = (text) => {
   if (!text || typeof text !== "string") {
@@ -103,7 +124,9 @@ const toHistoryState = (rows) =>
 
 const createDefaultProfileFilters = () => ({
   name: "",
-  conditions: [{ id: Date.now(), type: "IBS", subtype: "IBS-M", severity: "Moderate (regular symptoms)", details: "" }],
+  conditions: [{ id: createEntryId(), type: "IBS", subtype: "IBS-M", severity: "Moderate (regular symptoms)", details: "" }],
+  allergies: [createEmptyAllergyEntry()],
+  vitamin_levels: [createEmptyVitaminLevelEntry()],
   gender: "",
   age: "",
   height_ft: "",
@@ -122,19 +145,46 @@ const denormalizeProfileToFilters = (profileRow) => {
   const heightIn = totalInches !== null ? totalInches % 12 : "";
   const weightLb = weightKg ? Math.round(weightKg / 0.45359237) : "";
   const details = Array.isArray(profile.condition_details) ? profile.condition_details : [];
+  const allergies = Array.isArray(profile.allergies) ? profile.allergies : [];
+  const vitaminLevels = Array.isArray(profile.vitamin_levels) ? profile.vitamin_levels : [];
 
   return {
     name: profileRow?.display_name || "",
     conditions:
       details.length > 0
         ? details.map((item, index) => ({
-            id: Date.now() + index,
+            id: createEntryId() + index,
             type: item.condition || "IBS",
             subtype: item.subtype || "IBS-M",
             severity: item.severity || "Moderate (regular symptoms)",
             details: item.details || ""
           }))
-        : [{ id: Date.now(), type: "IBS", subtype: "IBS-M", severity: "Moderate (regular symptoms)", details: "" }],
+        : [{ id: createEntryId(), type: "IBS", subtype: "IBS-M", severity: "Moderate (regular symptoms)", details: "" }],
+    allergies: allergies
+      .filter((item) => typeof item === "string" && item.trim())
+      .map((item, index) => ({ id: createEntryId() + index, value: item.trim() })),
+    vitamin_levels: vitaminLevels
+      .filter((item) => item && typeof item === "object" && !Array.isArray(item))
+      .map((item, index) => ({
+        id: createEntryId() + index,
+        vitamin:
+          typeof item.vitamin === "string" && item.vitamin.trim()
+            ? VITAMIN_OPTIONS.includes(item.vitamin.trim())
+              ? item.vitamin.trim()
+              : VITAMIN_OTHER_OPTION
+            : VITAMIN_OPTIONS[0],
+        customVitamin:
+          typeof item.vitamin === "string" && item.vitamin.trim() && !VITAMIN_OPTIONS.includes(item.vitamin.trim())
+            ? item.vitamin.trim()
+            : "",
+        level: typeof item.level === "string" ? item.level : ""
+      })),
+    ...(allergies.filter((item) => typeof item === "string" && item.trim()).length === 0
+      ? { allergies: [createEmptyAllergyEntry()] }
+      : {}),
+    ...(vitaminLevels.filter((item) => item && typeof item === "object" && !Array.isArray(item)).length === 0
+      ? { vitamin_levels: [createEmptyVitaminLevelEntry()] }
+      : {}),
     gender:
       typeof profile.gender === "string" && profile.gender.length
         ? `${profile.gender.charAt(0).toUpperCase()}${profile.gender.slice(1).toLowerCase()}`
@@ -506,6 +556,22 @@ export default function Page() {
         return detail;
       });
     const conditionNames = [...new Set(conditionDetails.map((item) => item.condition))];
+    const allergies = profileFilters.allergies
+      .map((item) => (typeof item?.value === "string" ? item.value.trim() : ""))
+      .filter((item) => item.length > 0);
+    const vitaminLevels = profileFilters.vitamin_levels
+      .map((item) => ({
+        vitamin:
+          typeof item?.vitamin === "string" && item.vitamin.trim() === VITAMIN_OTHER_OPTION
+            ? typeof item?.customVitamin === "string"
+              ? item.customVitamin.trim()
+              : ""
+            : typeof item?.vitamin === "string"
+              ? item.vitamin.trim()
+              : "",
+        level: typeof item?.level === "string" ? item.level.trim() : ""
+      }))
+      .filter((item) => item.vitamin && item.level);
     const context = {
       conditions: conditionNames,
       condition_details: conditionDetails
@@ -523,6 +589,8 @@ export default function Page() {
     if (typeof heightCm === "number") context.height_cm = heightCm;
     if (typeof weightKg === "number") context.weight_kg = weightKg;
     if (dietType) context.diet_type = dietType.toLowerCase();
+    if (allergies.length) context.allergies = allergies;
+    if (vitaminLevels.length) context.vitamin_levels = vitaminLevels;
     if (notes) context.notes = notes;
 
     return context;
@@ -679,7 +747,7 @@ export default function Page() {
   };
 
   const addConditionEntry = () => {
-    const nextId = Date.now() + Math.floor(Math.random() * 1000);
+    const nextId = createEntryId();
     setProfileFilters((prev) => {
       return {
         ...prev,
@@ -689,6 +757,52 @@ export default function Page() {
         ]
       };
     });
+  };
+
+  const addAllergyEntry = () => {
+    setProfileFilters((prev) => ({
+      ...prev,
+      allergies: [...prev.allergies, createEmptyAllergyEntry()]
+    }));
+  };
+
+  const updateAllergyEntry = (id, value) => {
+    setProfileFilters((prev) => ({
+      ...prev,
+      allergies: prev.allergies.map((item) => (item.id === id ? { ...item, value } : item))
+    }));
+  };
+
+  const removeAllergyEntry = (id) => {
+    setProfileFilters((prev) => ({
+      ...prev,
+      allergies: prev.allergies.filter((item) => item.id !== id).length
+        ? prev.allergies.filter((item) => item.id !== id)
+        : [createEmptyAllergyEntry()]
+    }));
+  };
+
+  const addVitaminLevelEntry = () => {
+    setProfileFilters((prev) => ({
+      ...prev,
+      vitamin_levels: [...prev.vitamin_levels, createEmptyVitaminLevelEntry()]
+    }));
+  };
+
+  const updateVitaminLevelEntry = (id, updates) => {
+    setProfileFilters((prev) => ({
+      ...prev,
+      vitamin_levels: prev.vitamin_levels.map((item) => (item.id === id ? { ...item, ...updates } : item))
+    }));
+  };
+
+  const removeVitaminLevelEntry = (id) => {
+    setProfileFilters((prev) => ({
+      ...prev,
+      vitamin_levels: prev.vitamin_levels.filter((item) => item.id !== id).length
+        ? prev.vitamin_levels.filter((item) => item.id !== id)
+        : [createEmptyVitaminLevelEntry()]
+    }));
   };
 
   const updateConditionEntry = (id, updates) => {
@@ -1179,6 +1293,111 @@ export default function Page() {
                       </div>
                     </div>
                   ))}
+                </div>
+              </div>
+
+              <div className="filterSection">
+                <div className="filterSectionHeader">
+                  <p className="filterLabel">Allergies</p>
+                  <button type="button" className="addConditionButton" onClick={addAllergyEntry} aria-label="Add allergy">
+                    +
+                  </button>
+                </div>
+                <div className="conditionEntryList">
+                  {profileFilters.allergies.length ? (
+                    profileFilters.allergies.map((allergy) => (
+                      <div className="conditionEntryCard allergyEntryCard" key={allergy.id}>
+                        <div className="allergyEntryRow">
+                          <label className="filterField">
+                            <span>Allergy</span>
+                            <input
+                              type="text"
+                              value={allergy.value}
+                              onChange={(event) => updateAllergyEntry(allergy.id, event.target.value)}
+                              placeholder="e.g. peanuts, shellfish, soy"
+                            />
+                          </label>
+                          <button
+                            type="button"
+                            className="removeConditionButton"
+                            onClick={() => removeAllergyEntry(allergy.id)}
+                            aria-label="Remove allergy"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="emptyFilterHint">Add any food allergies you want GutCheck to consider.</p>
+                  )}
+                </div>
+              </div>
+
+              <div className="filterSection">
+                <div className="filterSectionHeader">
+                  <p className="filterLabel">Vitamin levels</p>
+                  <button type="button" className="addConditionButton" onClick={addVitaminLevelEntry} aria-label="Add vitamin level">
+                    +
+                  </button>
+                </div>
+                <div className="conditionEntryList">
+                  {profileFilters.vitamin_levels.length ? (
+                    profileFilters.vitamin_levels.map((entry) => (
+                      <div className="conditionEntryCard vitaminEntryCard" key={entry.id}>
+                        <div className="vitaminEntryGrid">
+                          <label className="filterField">
+                            <span>Vitamin</span>
+                            <select
+                              value={entry.vitamin}
+                              onChange={(event) =>
+                                updateVitaminLevelEntry(entry.id, {
+                                  vitamin: event.target.value,
+                                  customVitamin: event.target.value === VITAMIN_OTHER_OPTION ? entry.customVitamin || "" : ""
+                                })
+                              }
+                            >
+                              {VITAMIN_OPTIONS.map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </select>
+                          </label>
+                          {entry.vitamin === VITAMIN_OTHER_OPTION ? (
+                            <label className="filterField">
+                              <span>Custom vitamin</span>
+                              <input
+                                type="text"
+                                value={entry.customVitamin || ""}
+                                onChange={(event) => updateVitaminLevelEntry(entry.id, { customVitamin: event.target.value })}
+                                placeholder="e.g. Inositol"
+                              />
+                            </label>
+                          ) : null}
+                          <label className="filterField">
+                            <span>Level / result</span>
+                            <input
+                              type="text"
+                              value={entry.level}
+                              onChange={(event) => updateVitaminLevelEntry(entry.id, { level: event.target.value })}
+                              placeholder="e.g. 22 ng/mL"
+                            />
+                          </label>
+                          <button
+                            type="button"
+                            className="removeConditionButton"
+                            onClick={() => removeVitaminLevelEntry(entry.id)}
+                            aria-label="Remove vitamin level"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="emptyFilterHint">Add any vitamin results you want GutCheck to factor into your profile.</p>
+                  )}
                 </div>
               </div>
 

@@ -103,6 +103,8 @@ The model may receive optional user context such as:
 - height_cm
 - weight_kg
 - diet_type
+- allergies
+- vitamin_levels
 - notes
 - tolerance_history (optional)
 
@@ -186,7 +188,7 @@ tolerance history
 
 
 summary
-
+ensure summary is written to the user (your, you, etc.)
 The first sentence MUST describe the expected tolerance for this specific user when context is available.
 
 Then describe any portion-related risks or mechanisms.
@@ -296,19 +298,10 @@ If the input is not a food item, return ONLY:
 The roast for this edge case must:
 
 Be 1 short sentence
-
 Be mean / sarcastic
-
-Directly reference the input item
-
-Mock the user for thinking it is food
-
 Be under 20 words
-
 Contain no emojis
-
 Contain no extra JSON fields
-
 Return ONLY the JSON object`;
 
 const ALLOWED_FODMAP = new Set(["Low", "Moderate", "High", "Unknown"]);
@@ -454,6 +447,17 @@ function toNumberOrNull(value) {
   return typeof value === "number" && Number.isFinite(value) ? value : null;
 }
 
+function toVitaminLevelArray(value) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter((item) => item && typeof item === "object" && !Array.isArray(item))
+    .map((item) => ({
+      vitamin: typeof item.vitamin === "string" ? item.vitamin.trim() : "",
+      level: typeof item.level === "string" ? item.level.trim() : ""
+    }))
+    .filter((item) => item.vitamin && item.level);
+}
+
 function normalizeUserContext(value) {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     return { conditions: ["IBS"] };
@@ -519,6 +523,8 @@ function normalizeUserContext(value) {
     height_cm: toNumberOrNull(value.height_cm),
     weight_kg: toNumberOrNull(value.weight_kg),
     diet_type: typeof value.diet_type === "string" && value.diet_type.trim() ? value.diet_type.trim() : null,
+    allergies: toStringArray(value.allergies),
+    vitamin_levels: toVitaminLevelArray(value.vitamin_levels),
     notes: typeof value.notes === "string" && value.notes.trim() ? value.notes.trim() : null
   };
 }

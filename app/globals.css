@@ -946,6 +946,28 @@ h1 {
   gap: 12px;
 }
 
+.allergyEntryCard {
+  gap: 0;
+}
+
+.allergyEntryRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  align-items: end;
+}
+
+.vitaminEntryCard {
+  gap: 0;
+}
+
+.vitaminEntryGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  align-items: end;
+}
+
 .removeConditionButton {
   width: 100%;
   min-height: 46px;
@@ -1064,6 +1086,14 @@ h1 {
 .privacyNotice,
 .profileMessage,
 .deleteAccountTitle {
+  text-align: left;
+}
+
+.emptyFilterHint {
+  margin: 0;
+  color: rgba(15, 37, 67, 0.8);
+  font-family: var(--font-sour-gummy), sans-serif;
+  font-size: 0.95rem;
   text-align: left;
 }
 
@@ -2066,6 +2096,16 @@ h1 {
 
   .conditionEntryGrid {
     grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .allergyEntryRow {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+  }
+
+  .vitaminEntryGrid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
     gap: 10px;
   }
 
