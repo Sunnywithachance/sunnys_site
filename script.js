@@ -1310,6 +1310,38 @@ function initializeIntroReadyState() {
   });
 }
 
+function initializeMobileNavigation() {
+  const toggle = document.querySelector(".mobile-menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+  if (!toggle || !menu) return;
+
+  const setMenuState = (isOpen) => {
+    document.body.classList.toggle("mobile-nav-open", isOpen);
+    toggle.setAttribute("aria-expanded", String(isOpen));
+    toggle.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+  };
+
+  toggle.addEventListener("click", () => {
+    setMenuState(!document.body.classList.contains("mobile-nav-open"));
+  });
+
+  menu.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => setMenuState(false));
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!document.body.classList.contains("mobile-nav-open")) return;
+    if (toggle.contains(event.target) || menu.contains(event.target)) return;
+    setMenuState(false);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      setMenuState(false);
+    }
+  });
+}
+
 function initializeAboutTyping() {
   const aboutSection = document.getElementById("about");
   if (!aboutSection) return;
@@ -1449,6 +1481,7 @@ bindProjectTriggers(document.querySelectorAll(".athletics-bubble[data-project]")
 bindProjectTriggers(document.querySelectorAll(".career-item[data-project]"));
 initializeExperienceHoverGradient();
 initializeIntroReadyState();
+initializeMobileNavigation();
 initializeContactForm();
 initializeFooterYear();
 
