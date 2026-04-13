@@ -1302,31 +1302,12 @@ function initializeExperienceHoverGradient() {
   });
 }
 
-function initializeTrailAnimation() {
-  const trailLines = document.querySelectorAll(".s-trail-static-line");
-  if (!trailLines.length || !introSection) return;
-
-  // Start hidden, then draw in once on initial page load.
-  document.body.classList.add("trail-hidden");
+function initializeIntroReadyState() {
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      document.body.classList.remove("trail-hidden");
-      window.setTimeout(() => {
-        document.body.classList.add("intro-ready");
-      }, 1200);
+      document.body.classList.add("intro-ready");
     });
   });
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      const [entry] = entries;
-      const introActive = entry.isIntersecting && entry.intersectionRatio >= 0.55;
-      document.body.classList.toggle("trail-hidden", !introActive);
-    },
-    { threshold: [0.55] }
-  );
-
-  observer.observe(introSection);
 }
 
 function initializeAboutTyping() {
@@ -1467,7 +1448,7 @@ bindProjectTriggers(document.querySelectorAll(".artwork-card[data-project]"));
 bindProjectTriggers(document.querySelectorAll(".athletics-bubble[data-project]"));
 bindProjectTriggers(document.querySelectorAll(".career-item[data-project]"));
 initializeExperienceHoverGradient();
-initializeTrailAnimation();
+initializeIntroReadyState();
 initializeContactForm();
 initializeFooterYear();
 
