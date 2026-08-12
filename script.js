@@ -42,21 +42,23 @@ const projectData = {
   },
   "internship-progress": {
     type: "Internship/Co-op",
-    title: "Randox Laboratories - Engineering Placement",
+    title: "Randox Laboratories - Patent Portfolio Platform",
     description:
-      "Engineering Placement (Systems Improvement Team), August 2025 to Present.",
+      "Engineering Placement, Systems Improvement Team (Antrim, Northern Ireland), January 2026 to Present.",
     custom: "randox",
     companyName: "Randox Laboratories",
     companyUrl: "https://www.randox.com/",
     companyLogo: "images/randox.png",
     roleTitle: "Engineering Placement (Systems Improvement Team)",
-    location: "Randox Laboratories",
-    period: "August 2025 to Present",
+    location: "Antrim, Northern Ireland, United Kingdom",
+    period: "January 2026 to Present",
     responsibilitiesParagraph:
-      "As an Engineering Placement student on the Systems Improvement team at Randox Laboratories, I am developing an automated manufacturing workflow using a UR3 robotic arm and designing a LIMS platform to automatically transfer biomedical device data into a centralized database with a consumer-facing interface.",
+      "As an Engineering Placement student on the Systems Improvement team at Randox Laboratories, I am building a full-stack patent portfolio management platform that centralizes invention records, patent applications, examination matters, deadlines, missing information, and review tasks into one searchable internal system.",
     bullets: [
-      "Currently interning with the Systems Improvement team at Randox Laboratories.",
-      "Designing a LIMS platform for Randox to automatically transfer data from biomedical devices to a central database, with a consumer-facing interface."
+      "Built a full-stack patent management platform using Next.js, Go, Docker, and SQL Server to organize a portfolio of 260 patent inventions.",
+      "Developed an action-required workflow that consolidates 828 affected patent records into 496 grouped review issues by invention.",
+      "Designed compact, reusable table and panel components for patent records, examination matters, deadlines, filters, and detail views.",
+      "Supported related LIMS planning for structured biomedical device data transfer into centralized database workflows."
     ]
   },
   capstone: {
@@ -137,6 +139,17 @@ const projectData = {
     paragraphs: [
       "I played house ice hockey for 12 years and graduated from the Nepean Girls Hockey Association (NGHA) in grade 12 when I left for university.",
       "I'm looking forward to playing again when I am older!"
+    ]
+  },
+  "athletics-running": {
+    type: "Athletics",
+    title: "🏃🏾‍♀️ Running",
+    custom: "athletics",
+    images: [
+      { src: "images/Athletics images/running.jpg", alt: "Sanika running" }
+    ],
+    paragraphs: [
+      "I started running at age 11 as a way to train for other sports, but quickly grew to enjoy it as a sport of its own. My personal bests include a 56-minute 10K and 12:36 for 2.66 km, averaging a 4:43/km pace. One of my goals is to run a full marathon someday."
     ]
   },
   gutcheck: {
@@ -278,12 +291,13 @@ const projectData = {
     custom: "career",
     companyLogo: "images/Career Journey/Randox.jpg",
     companyName: "Randox",
-    title: "Agile Developer Intern",
+    title: "Engineering Placement",
     meta: "Randox · Internship",
     periodLocation: "Jan 2026 - Present · Antrim, Northern Ireland, United Kingdom",
     bullets: [
-      "Developing automation and digital process integration for manufacturing workflows.",
-      "Building an automated manufacturing process using a UR3 robotic arm to improve repeatability and operational efficiency."
+      "Building a full-stack patent portfolio platform that centralizes invention records, patent applications, examination matters, deadlines, and missing information.",
+      "Implemented grouped action-required workflows to help patent teams prioritize incomplete records and review issues more efficiently.",
+      "Developing reusable, high-density UI patterns for searchable patent tables, filters, detail pages, and examination deadline workflows."
     ]
   },
   "career-siemens": {
@@ -528,10 +542,10 @@ const deckPreview = {
     company: "Randox Laboratories",
     logo: "images/randox.png",
     role: "Engineering Placement (Systems Improvement Team)",
-    location: "Randox Laboratories",
-    period: "August 2025 to Present",
+    location: "Antrim, Northern Ireland",
+    period: "January 2026 to Present",
     description:
-      "Current placement focused on robotics automation and LIMS data integration for biomedical workflows."
+      "Building a full-stack patent portfolio platform for invention records, deadlines, examination matters, and review workflows."
   },
   capstone: {
     type: "Capstone",
@@ -806,35 +820,35 @@ function renderRandoxProject(project) {
       <div class="cra-context">
         <article class="cra-context-card">
           <h4>Context</h4>
-          <p>I am currently completing my engineering placement at Randox Laboratories on the Systems Improvement team, focused on automation and digital process integration.</p>
+          <p>I am building an internal patent operations platform that replaces scattered tracking methods with a structured, searchable system for portfolio review.</p>
         </article>
       </div>
       <div class="cra-steps">
         <article class="cra-step">
-          <div class="cra-step-icon" aria-hidden="true">🤖</div>
-          <h4>Manufacturing Automation</h4>
-          <p>Developing an automated manufacturing process using a UR3 robotic arm to improve repeatability and operational efficiency.</p>
+          <div class="cra-step-icon" aria-hidden="true">🗂️</div>
+          <h4>Patent Portfolio</h4>
+          <p>Organized invention records, patent applications, deadlines, statuses, and missing information for a portfolio of 260 inventions.</p>
         </article>
         <article class="cra-step">
-          <div class="cra-step-icon" aria-hidden="true">🧬</div>
-          <h4>LIMS Platform Design</h4>
-          <p>Designing a LIMS solution that transfers biomedical device output into a centralized data environment.</p>
+          <div class="cra-step-icon" aria-hidden="true">✅</div>
+          <h4>Action Required</h4>
+          <p>Built grouped review workflows that consolidate 828 affected patent records into 496 invention-level action items.</p>
         </article>
         <article class="cra-step">
           <div class="cra-step-icon" aria-hidden="true">🗄️</div>
-          <h4>Data Integration</h4>
-          <p>Building automated data pathways to reduce manual handling and improve consistency across device records.</p>
+          <h4>Full-Stack Build</h4>
+          <p>Used Next.js, Go, Docker, and SQL Server to connect responsive frontend workflows with database-backed patent records.</p>
         </article>
         <article class="cra-step">
           <div class="cra-step-icon" aria-hidden="true">🖥️</div>
-          <h4>Interface Development</h4>
-          <p>Supporting a consumer-facing interface that surfaces laboratory information clearly for end users.</p>
+          <h4>Operational UI</h4>
+          <p>Designed compact tables, filters, panels, and detail views for patent records, examination matters, and deadline tracking.</p>
         </article>
       </div>
       <div class="cra-context">
         <article class="cra-context-card">
-          <h4>Project Status</h4>
-          <p>This placement is in progress, with active implementation, testing, and iteration across both robotics automation and LIMS architecture.</p>
+          <h4>Secondary Scope</h4>
+          <p>I also supported related LIMS planning for structured biomedical device data transfer, but the patent organizer is now my primary project.</p>
         </article>
       </div>
       <div class="cra-context">
@@ -892,8 +906,9 @@ function renderAthleticsProject(project) {
   const hasTitleEmoji = titleParts.length > 1;
   const titleEmoji = hasTitleEmoji ? titleParts[0] : "";
   const titleText = hasTitleEmoji ? titleParts.slice(1).join(" ") : project.title;
+  const imageList = project.images || [];
 
-  const images = (project.images || [])
+  const images = imageList
     .map(
       (image) => `
         <img class="athletics-modal-image" src="${image.src}" alt="${image.alt}" />
@@ -911,7 +926,7 @@ function renderAthleticsProject(project) {
         ${titleEmoji ? `<span class="athletics-title-emoji" aria-hidden="true">${titleEmoji}</span>` : ""}
         <h3>${titleText}</h3>
       </div>
-      <div class="athletics-modal-grid">${images}</div>
+      <div class="athletics-modal-grid${imageList.length === 1 ? " athletics-modal-grid-single" : ""}">${images}</div>
       <div class="athletics-modal-copy">${paragraphs}</div>
     </section>
   `;
@@ -1490,6 +1505,26 @@ function initializeCareerJourneyToggle() {
   });
 }
 
+function initializeAboutImages() {
+  document.querySelectorAll(".about-image-placeholder img").forEach((image) => {
+    const markLoaded = () => {
+      image.classList.add("is-loaded");
+    };
+    const hideMissing = () => {
+      image.removeAttribute("src");
+      image.setAttribute("aria-hidden", "true");
+    };
+
+    if (image.complete && image.naturalWidth > 0) {
+      markLoaded();
+      return;
+    }
+
+    image.addEventListener("load", markLoaded, { once: true });
+    image.addEventListener("error", hideMissing, { once: true });
+  });
+}
+
 renderGallery();
 renderArtworkGallery();
 bindProjectTriggers(document.querySelectorAll(".experience-card[data-project]"));
@@ -1502,6 +1537,7 @@ initializeMobileNavigation();
 initializeContactForm();
 initializeFooterYear();
 initializeCareerJourneyToggle();
+initializeAboutImages();
 
 closeModalBtn.addEventListener("click", closeModal);
 
