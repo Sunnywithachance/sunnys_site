@@ -152,6 +152,18 @@ const projectData = {
       "I started running at age 11 as a way to train for other sports, but quickly grew to enjoy it as a sport of its own. My personal bests include a 56-minute 10K and 12:36 for 2.66 km, averaging a 4:43/km pace. One of my goals is to run a full marathon someday."
     ]
   },
+  "athletics-climbing": {
+    type: "Athletics",
+    title: "🧗🏾‍♀️ Bouldering / Rock Climbing",
+    custom: "athletics",
+    images: [
+      { src: "images/Athletics images/climbing1.jpg", alt: "Sanika bouldering" },
+      { src: "images/Athletics images/climbing2.jpg", alt: "Sanika rock climbing" }
+    ],
+    paragraphs: [
+      "I have been climbing since high school and have continued to enjoy it throughout university. I have made good use of the bouldering gym at the University of Waterloo, using climbing as a fun way to build strength, problem-solving skills, and confidence on the wall."
+    ]
+  },
   gutcheck: {
     type: "Project",
     title: "GutCheck",

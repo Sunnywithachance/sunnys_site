@@ -1604,8 +1604,23 @@ h1 {
 }
 
 .athletics-emoji {
+  width: 1.2em;
+  height: 1.2em;
+  display: inline-grid;
+  place-items: center;
   font-size: clamp(2.1rem, 3vw, 2.8rem);
   line-height: 1;
+  text-align: center;
+}
+
+.athletics-emoji-running {
+  font-size: clamp(2rem, 2.85vw, 2.62rem);
+  transform: translateY(0.03em);
+}
+
+.athletics-emoji-climbing {
+  font-size: clamp(1.9rem, 2.7vw, 2.5rem);
+  transform: translateY(0.03em);
 }
 
 .project-bubble {
