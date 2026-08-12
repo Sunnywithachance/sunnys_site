@@ -81,6 +81,15 @@ const VITAMIN_OPTIONS = [
   "Vitamin D",
   "Vitamin E",
   "Vitamin K",
+  "Folate / Folic acid",
+  "Magnesium",
+  "Iron",
+  "Calcium",
+  "Ferritin",
+  "Transferrin",
+  "Transferrin saturation",
+  "Total iron-binding capacity (TIBC)",
+  "Albumin",
   "Choline",
   VITAMIN_OTHER_OPTION
 ];
