@@ -170,11 +170,11 @@ const projectData = {
     custom: "project",
     eyebrow: "Personal Project",
     subtitle: "A personalized AI food-checking tool that turns scattered online research into one structured answer.",
-    projectUrl: "https://www.gutcheck.sanikarewankar.com",
+    projectUrl: "https://gutcheck.sanikarewankar.com",
     actions: [
       {
         label: "Visit Website",
-        href: "https://www.gutcheck.sanikarewankar.com"
+        href: "https://gutcheck.sanikarewankar.com"
       }
     ],
     metadata: [
