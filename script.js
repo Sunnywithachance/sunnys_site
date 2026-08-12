@@ -1143,6 +1143,35 @@ function renderCareerProject(project) {
   `;
 }
 
+function renderCourseModal(courseButton) {
+  const term = courseButton.closest(".undergrad-term")?.querySelector("h3")?.textContent || "Undergrad";
+  const description = courseButton.dataset.description || "Description coming soon.";
+
+  return `
+    <section class="course-modal">
+      <p class="modal-type">${term}</p>
+      <h3>${courseButton.textContent}</h3>
+      <article class="job-bubble">
+        <h4>Course Description</h4>
+        <p class="course-modal-placeholder">${description}</p>
+      </article>
+    </section>
+  `;
+}
+
+function openCourseModal(courseButton) {
+  stopModalMedia();
+  modal.classList.remove("artwork", "case-study", "wide");
+  modalContent.innerHTML = renderCourseModal(courseButton);
+  if (modalPanel) {
+    modalPanel.style.background = "";
+    modalPanel.scrollTop = 0;
+    window.requestAnimationFrame(updateModalScrollIndicator);
+  }
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden", "false");
+}
+
 function openModal(projectKey) {
   stopModalMedia();
   if (projectKey.startsWith("artwork-")) {
@@ -1308,6 +1337,14 @@ function bindProjectTriggers(nodes) {
         openModal(card.dataset.project);
       }
     });
+  });
+}
+
+function bindCourseTriggers(nodes) {
+  nodes.forEach((button) => {
+    if (button.dataset.courseBound === "true") return;
+    button.dataset.courseBound = "true";
+    button.addEventListener("click", () => openCourseModal(button));
   });
 }
 
@@ -1543,6 +1580,7 @@ bindProjectTriggers(document.querySelectorAll(".experience-card[data-project]"))
 bindProjectTriggers(document.querySelectorAll(".artwork-card[data-project]"));
 bindProjectTriggers(document.querySelectorAll(".athletics-bubble[data-project]"));
 bindProjectTriggers(document.querySelectorAll(".career-item[data-project]"));
+bindCourseTriggers(document.querySelectorAll(".course-bubble[data-course]"));
 initializeExperienceHoverGradient();
 initializeIntroReadyState();
 initializeMobileNavigation();

@@ -707,7 +707,9 @@ h1 {
   .about-narrative-card,
   .info-grid,
   .competency-profile,
+  .course-legend,
   .career-journey-list,
+  .undergrad-course-grid,
   .athletics-bubble-row,
   .artwork-gallery,
   .contact-form
@@ -1510,6 +1512,21 @@ h1 {
   text-align: center;
 }
 
+#undergrad .page-shell {
+  width: min(1220px, 100%);
+  margin-inline: auto;
+  display: grid;
+  justify-items: stretch;
+  text-align: left;
+}
+
+#undergrad .page-eyebrow,
+#undergrad .expand-note,
+#undergrad h2 {
+  justify-self: center;
+  text-align: center;
+}
+
 #contact .page-shell {
   width: min(980px, 100%);
   margin-inline: auto;
@@ -1548,6 +1565,11 @@ h1 {
   isolation: isolate;
 }
 
+#undergrad.page-section {
+  position: relative;
+  isolation: isolate;
+}
+
 #projects.page-section {
   position: relative;
   isolation: isolate;
@@ -1560,6 +1582,168 @@ h1 {
 
 #athletics.page-section::before {
   content: none;
+}
+
+#undergrad.page-section::before {
+  content: none;
+}
+
+.undergrad-course-grid {
+  width: min(100%, 1180px);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.55rem);
+  align-items: stretch;
+  overflow: visible;
+  padding: 0.4rem 0.1rem 0;
+}
+
+.course-legend {
+  width: min(100%, 940px);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem 0.7rem;
+  margin-inline: auto;
+  color: rgba(143, 50, 9, 0.78);
+  font-size: clamp(0.62rem, 0.75vw, 0.76rem);
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.course-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.22rem;
+  white-space: nowrap;
+}
+
+#undergrad .course-legend {
+  margin-top: 0.35rem;
+}
+
+#undergrad .expand-note {
+  margin-top: 0.55rem;
+}
+
+#undergrad .undergrad-course-grid {
+  margin-top: clamp(1rem, 2vw, 1.45rem);
+}
+
+.undergrad-term {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.38rem;
+  padding-left: 1.55rem;
+}
+
+.undergrad-term h3 {
+  margin: 0;
+  font-family: "DynaPuff", "Space Grotesk", sans-serif;
+  font-size: clamp(1rem, 1.45vw, 1.22rem);
+  font-weight: 700;
+  color: #8f3209;
+  text-align: left;
+}
+
+.course-bubble {
+  position: relative;
+  width: 100%;
+  min-height: 38px;
+  border: 2px solid rgba(143, 50, 9, 0.78);
+  border-radius: 999px;
+  padding: 0.42rem 0.68rem;
+  appearance: none;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 246, 0.9), rgba(220, 210, 194, 0.78)),
+    var(--bubble-beige-soft);
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.72),
+    0 4px 0 rgba(116, 38, 7, 0.11),
+    0 9px 17px rgba(74, 30, 12, 0.11);
+  color: #8f3209;
+  cursor: pointer;
+  font: 700 clamp(0.63rem, 0.78vw, 0.78rem) / 1.12 "Space Grotesk", sans-serif;
+  text-align: left;
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    background 260ms ease;
+}
+
+.course-bubble[data-emoji]::before {
+  content: attr(data-emoji);
+  position: absolute;
+  left: -1.55rem;
+  top: 50%;
+  width: 1.2rem;
+  transform: translateY(-50%);
+  font-size: clamp(0.82rem, 1vw, 1rem);
+  line-height: 1;
+  text-align: center;
+  pointer-events: none;
+}
+
+.course-bubble:hover,
+.course-bubble:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(116, 38, 7, 0.96);
+  background:
+    linear-gradient(180deg, rgba(255, 249, 237, 0.96), rgba(230, 219, 203, 0.9)),
+    var(--bubble-beige);
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.82),
+    0 5px 0 rgba(116, 38, 7, 0.12),
+    0 11px 18px rgba(74, 30, 12, 0.13);
+  outline: none;
+}
+
+.course-bubble-placeholder {
+  color: rgba(143, 50, 9, 0.62);
+  border-color: rgba(143, 50, 9, 0.36);
+}
+
+.undergrad-term-empty {
+  min-height: 7rem;
+}
+
+.term-pending {
+  margin: 0.15rem 0 0;
+  color: rgba(143, 50, 9, 0.58);
+  font-size: clamp(0.72rem, 0.9vw, 0.84rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+}
+
+.course-modal {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.course-modal h3 {
+  margin: 0;
+  color: #fff8eb;
+  font-size: clamp(1.5rem, 3.8vw, 2.2rem);
+  line-height: 1.05;
+}
+
+.course-modal-meta {
+  margin: 0;
+  color: rgba(255, 248, 235, 0.82);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.course-modal-placeholder {
+  margin: 0;
+  color: #fff8eb;
+  font-size: 1rem;
 }
 
 .athletics-stack {
@@ -3550,9 +3734,25 @@ body:has(.modal.open) .scroll-cue {
   }
 
   .career-journey-list,
+  .undergrad-course-grid,
   .athletics-bubble-row,
   .projects-bubble-row {
     gap: 16px;
+  }
+
+  .undergrad-course-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(100%, 620px);
+  }
+
+  .undergrad-term {
+    min-width: 0;
+  }
+
+  .course-bubble {
+    min-height: 38px;
+    padding-inline: 0.62rem;
+    font-size: 0.68rem;
   }
 
   .career-item {
