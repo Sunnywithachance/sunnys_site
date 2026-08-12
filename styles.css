@@ -887,15 +887,23 @@ h1 {
 
 .footer-columns {
   display: grid;
-  grid-template-columns: repeat(3, minmax(220px, 280px));
-  gap: clamp(1.1rem, 2.6vw, 2.2rem);
+  grid-template-columns: repeat(3, minmax(180px, 1fr));
+  gap: clamp(1.6rem, 5vw, 4.5rem);
+  align-items: start;
   justify-content: center;
+  justify-items: center;
+  width: min(100%, 860px);
+  margin-inline: auto;
 }
 
 .footer-column {
   min-width: 0;
   width: 100%;
-  max-width: 280px;
+  max-width: 260px;
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  text-align: center;
 }
 
 .footer-heading {
@@ -909,6 +917,8 @@ h1 {
 
 .footer-links-text {
   display: grid;
+  align-content: start;
+  justify-items: center;
   gap: 0.42rem;
 }
 
