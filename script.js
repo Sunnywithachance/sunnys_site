@@ -1473,6 +1473,23 @@ function initializeFooterYear() {
   yearEl.textContent = String(new Date().getFullYear());
 }
 
+function initializeCareerJourneyToggle() {
+  const list = document.getElementById("career-journey-list");
+  const button = document.querySelector(".career-view-more");
+  if (!list || !button) return;
+
+  button.addEventListener("click", () => {
+    const isExpanded = list.classList.toggle("is-expanded");
+    button.setAttribute("aria-expanded", String(isExpanded));
+    button.textContent = isExpanded ? "view less" : "view more";
+
+    if (!isExpanded) {
+      const section = document.getElementById("career-journey");
+      section?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+}
+
 renderGallery();
 renderArtworkGallery();
 bindProjectTriggers(document.querySelectorAll(".experience-card[data-project]"));
@@ -1484,6 +1501,7 @@ initializeIntroReadyState();
 initializeMobileNavigation();
 initializeContactForm();
 initializeFooterYear();
+initializeCareerJourneyToggle();
 
 closeModalBtn.addEventListener("click", closeModal);
 

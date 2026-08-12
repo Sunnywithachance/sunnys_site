@@ -1299,22 +1299,19 @@ h1 {
 
 .career-journey-list {
   --career-bubble-size: clamp(220px, 30vw, 320px);
-  display: grid;
-  grid-template-columns: 1fr;
-  column-gap: clamp(0.2rem, 0.8vw, 0.55rem);
-  row-gap: clamp(0.35rem, 1vw, 0.8rem);
+  --career-gap: clamp(0.75rem, 2vw, 1.25rem);
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(0.85rem, 2vw, 1.4rem) var(--career-gap);
   max-height: none;
   overflow: visible;
   padding-right: 0;
-  width: 100%;
+  width: min(100%, calc((var(--career-bubble-size) * 3) + (var(--career-gap) * 2)));
   justify-content: center;
-  justify-items: center;
 }
 
-.career-item:nth-child(3n) {
-  grid-column: auto;
-  justify-self: center;
-  margin-top: 0;
+.career-journey-list:not(.is-expanded) .career-item:nth-child(n + 4) {
+  display: none;
 }
 
 .career-item {
@@ -1323,6 +1320,7 @@ h1 {
   background: linear-gradient(145deg, rgba(147, 65, 10, 0.78) 0%, rgba(117, 46, 16, 0.74) 100%);
   box-shadow: 0 8px 18px rgba(67, 28, 10, 0.16);
   width: min(100%, var(--career-bubble-size));
+  flex: 0 0 min(100%, var(--career-bubble-size));
   aspect-ratio: 1 / 1;
   padding: clamp(0.8rem, 2.1vw, 1.2rem);
   display: flex;
@@ -1416,8 +1414,33 @@ h1 {
   transition: color 260ms ease, text-shadow 260ms ease;
 }
 
+.career-view-more {
+  margin-top: clamp(0.8rem, 2vw, 1.15rem);
+  border: 1px solid rgba(162, 74, 28, 0.55);
+  border-radius: 999px;
+  background: rgba(255, 246, 230, 0.78);
+  color: #6b2e11;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  padding: 0.52rem 0.82rem;
+  text-transform: lowercase;
+  box-shadow: 0 8px 18px rgba(70, 30, 10, 0.14);
+  transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.career-view-more:hover,
+.career-view-more:focus-visible {
+  transform: translateY(-2px);
+  background: rgba(255, 246, 230, 0.96);
+  box-shadow: 0 10px 20px rgba(110, 42, 8, 0.2);
+}
+
 #career-journey .page-shell {
-  width: min(980px, 100%);
+  width: min(1120px, 100%);
   margin-inline: auto;
   display: grid;
   justify-items: center;
@@ -3125,13 +3148,13 @@ body:has(.modal.open) .scroll-cue {
 @media (max-width: 860px) {
   .career-journey-list {
     --career-bubble-size: clamp(210px, 86vw, 320px);
-    grid-template-columns: 1fr;
     row-gap: clamp(0.5rem, 2vw, 1rem);
   }
+}
 
-  .career-item:nth-child(3n) {
-    grid-column: auto;
-    margin-top: 0;
+@media (max-width: 700px) {
+  .career-journey-list {
+    --career-bubble-size: min(270px, 82vw);
   }
 }
 
