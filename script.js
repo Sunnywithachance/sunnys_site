@@ -1574,6 +1574,160 @@ function initializeAboutImages() {
   });
 }
 
+function initializePageScrollbar() {
+  const scrollbar = document.getElementById("page-scrollbar");
+  const track = scrollbar?.querySelector(".page-scrollbar-track");
+  const thumb = document.getElementById("page-scrollbar-thumb");
+  const labels = Array.from(scrollbar?.querySelectorAll(".page-scrollbar-labels a") || []);
+  if (!scrollbar || !track || !thumb) return;
+
+  let isDragging = false;
+  let dragOffset = 0;
+  let isHoveringScrollbar = false;
+
+  function getScrollMetrics() {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    const trackHeight = track.clientHeight;
+    const thumbHeight = Math.max(38, Math.min(trackHeight, (window.innerHeight / document.documentElement.scrollHeight) * trackHeight));
+    const maxThumbY = Math.max(0, trackHeight - thumbHeight);
+    return { scrollTop, maxScroll, trackHeight, thumbHeight, maxThumbY };
+  }
+
+  function updateScrollbar() {
+    const { scrollTop, maxScroll, thumbHeight, maxThumbY } = getScrollMetrics();
+    if (maxScroll <= 0 || window.innerWidth <= 767) {
+      scrollbar.classList.remove("is-visible");
+      return;
+    }
+
+    const activeLabel = getActiveLabel();
+    if (activeLabel?.getAttribute("href") === "#intro") {
+      scrollbar.classList.remove("is-visible");
+      updateActiveLabel(activeLabel);
+      return;
+    }
+
+    const progress = scrollTop / maxScroll;
+    thumb.style.height = `${thumbHeight}px`;
+    thumb.style.transform = `translate(-50%, ${progress * maxThumbY}px)`;
+    scrollbar.classList.add("is-visible");
+    updateActiveLabel(activeLabel);
+  }
+
+  function getActiveLabel() {
+    if (!labels.length) return null;
+    const viewportCenter = window.innerHeight / 2;
+    let activeLabel = labels[0];
+    const { scrollTop, maxScroll } = getScrollMetrics();
+
+    if (maxScroll > 0 && maxScroll - scrollTop < 2) {
+      activeLabel = labels[labels.length - 1];
+    } else {
+      labels.forEach((label) => {
+        const section = document.querySelector(label.getAttribute("href"));
+        const triggerElement = section?.querySelector("h1, h2") || section;
+        if (!triggerElement) return;
+
+        const rect = triggerElement.getBoundingClientRect();
+        const triggerY = rect.top + rect.height / 2;
+        if (triggerY <= viewportCenter) {
+          activeLabel = label;
+        }
+      });
+    }
+
+    return activeLabel;
+  }
+
+  function updateActiveLabel(activeLabel = getActiveLabel()) {
+    if (!activeLabel) return;
+
+    labels.forEach((label) => {
+      label.classList.toggle("is-active", label === activeLabel);
+    });
+
+    if (!isHoveringScrollbar) {
+      updateFishbowlForLabel(activeLabel);
+    }
+  }
+
+  function updateFishbowl(clientY) {
+    const maxDistance = 132;
+
+    labels.forEach((label) => {
+      const rect = label.getBoundingClientRect();
+      const centerY = rect.top + rect.height / 2;
+      const distance = Math.abs(clientY - centerY);
+      const influence = Math.max(0, 1 - distance / maxDistance);
+      const eased = influence * influence * (3 - 2 * influence);
+
+      label.style.setProperty("--fish-scale", (1 + eased * 0.42).toFixed(3));
+      label.style.setProperty("--fish-shift", `${(eased * 12).toFixed(1)}px`);
+      label.style.setProperty("--fish-opacity", (0.58 + eased * 0.42).toFixed(3));
+      label.style.fontWeight = String(Math.round(700 + eased * 100));
+    });
+  }
+
+  function updateFishbowlForLabel(activeLabel) {
+    if (!activeLabel) return;
+    const rect = activeLabel.getBoundingClientRect();
+    updateFishbowl(rect.top + rect.height / 2);
+  }
+
+  function scrollFromClientY(clientY) {
+    const { maxScroll, thumbHeight, maxThumbY } = getScrollMetrics();
+    if (maxScroll <= 0 || maxThumbY <= 0) return;
+    const trackTop = track.getBoundingClientRect().top;
+    const y = Math.min(maxThumbY, Math.max(0, clientY - trackTop - dragOffset));
+    window.scrollTo({ top: (y / maxThumbY) * maxScroll, behavior: "auto" });
+  }
+
+  thumb.addEventListener("pointerdown", (event) => {
+    isDragging = true;
+    const thumbRect = thumb.getBoundingClientRect();
+    dragOffset = event.clientY - thumbRect.top;
+    thumb.setPointerCapture(event.pointerId);
+    event.preventDefault();
+  });
+
+  thumb.addEventListener("pointermove", (event) => {
+    if (!isDragging) return;
+    scrollFromClientY(event.clientY);
+  });
+
+  thumb.addEventListener("pointerup", (event) => {
+    isDragging = false;
+    thumb.releasePointerCapture(event.pointerId);
+  });
+
+  thumb.addEventListener("pointercancel", () => {
+    isDragging = false;
+  });
+
+  track.addEventListener("click", (event) => {
+    if (event.target === thumb) return;
+    const { thumbHeight } = getScrollMetrics();
+    dragOffset = thumbHeight / 2;
+    scrollFromClientY(event.clientY);
+  });
+
+  scrollbar.addEventListener("pointermove", (event) => {
+    if (window.innerWidth <= 767) return;
+    isHoveringScrollbar = true;
+    updateFishbowl(event.clientY);
+  });
+
+  scrollbar.addEventListener("pointerleave", () => {
+    isHoveringScrollbar = false;
+    updateActiveLabel();
+  });
+
+  window.addEventListener("scroll", updateScrollbar, { passive: true });
+  window.addEventListener("resize", updateScrollbar);
+  updateScrollbar();
+}
+
 renderGallery();
 renderArtworkGallery();
 bindProjectTriggers(document.querySelectorAll(".experience-card[data-project]"));
@@ -1588,6 +1742,7 @@ initializeContactForm();
 initializeFooterYear();
 initializeCareerJourneyToggle();
 initializeAboutImages();
+initializePageScrollbar();
 
 closeModalBtn.addEventListener("click", closeModal);
 
