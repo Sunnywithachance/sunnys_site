@@ -889,6 +889,8 @@ body:has(.modal.open) .page-scrollbar {
   --fish-shift: 0px;
   --fish-opacity: 0.72;
   max-width: 100%;
+  padding: 0.22rem 0.34rem;
+  border-radius: 999px;
   color: rgba(90, 37, 9, 0.74);
   font-size: clamp(0.5rem, 0.56vw, 0.62rem);
   font-weight: 700;
@@ -910,6 +912,7 @@ body:has(.modal.open) .page-scrollbar {
 .page-scrollbar-labels a:hover,
 .page-scrollbar-labels a:focus-visible,
 .page-scrollbar-labels a.is-active {
+  background: rgba(255, 255, 255, 0.86);
   color: #8f3209;
   opacity: 1;
   outline: none;
@@ -917,18 +920,20 @@ body:has(.modal.open) .page-scrollbar {
 
 @media (max-width: 1380px) {
   .page-scrollbar {
-    --scrollbar-width: 28px;
+    --scrollbar-width: clamp(82px, 8vw, 104px);
     right: clamp(8px, 1.5vw, 16px);
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  .page-scrollbar-labels {
-    display: none;
+    height: min(46vh, 360px);
+    grid-template-columns: minmax(0, 1fr) 10px;
+    gap: 0.28rem;
   }
 
   .page-scrollbar-track {
     width: 5px;
+  }
+
+  .page-scrollbar-labels a {
+    font-size: clamp(0.45rem, 0.62vw, 0.56rem);
+    padding: 0.18rem 0.28rem;
   }
 }
 
