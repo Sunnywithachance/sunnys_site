@@ -183,6 +183,33 @@ canvas {
   grid-row: 4;
 }
 
+.hero > .scroll-cue {
+  --intro-cue-width: clamp(76px, 6.8vw, 104px);
+  --intro-cue-gap: clamp(4px, 0.45vw, 7px);
+  position: relative;
+  left: auto;
+  bottom: auto;
+  width: var(--intro-cue-width);
+  margin: clamp(1.7rem, 3.8vh, 2.7rem) auto 0;
+  gap: var(--intro-cue-gap);
+  transform: none;
+}
+
+.hero > .scroll-cue .scroll-cue-part {
+  width: calc(var(--intro-cue-width) * 0.89);
+  height: clamp(20px, 2vw, 29px);
+}
+
+.hero > .scroll-cue .part-1 {
+  width: calc(var(--intro-cue-width) * 0.78);
+  height: clamp(16px, 1.55vw, 22px);
+}
+
+.hero > .scroll-cue .part-2 {
+  width: calc(var(--intro-cue-width) * 0.84);
+  height: clamp(18px, 1.75vw, 25px);
+}
+
 .scroll-cue-up .part-1 {
   grid-row: 1;
 }
